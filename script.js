@@ -7,6 +7,12 @@ document.getElementById('generate-button').addEventListener('click', (e) => {
    const storyline = document.getElementById('storyline').value;
    const message = document.getElementById('message').value;
    const date = document.getElementById('date').value;
+
+   if (!genre || !title || !author || !character || !storyline || !message || !date) {
+      alert("Please fill in all fields before generating the story.");
+      return;
+   }
+
    const result = `
 <h2>Generated Story</h2>
 <p><strong>Genre:</strong> ${genre}</p>

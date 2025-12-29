@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireFks Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #f3f4f6; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col">
+        <div class="h-20 flex items-center px-8 border-b border-slate-800">
+            <div class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+                Nexus<span class="text-white">Sys</span>
+            </div>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 bg-blue-600 rounded-xl text-white shadow-lg shadow-blue-900/50 transition">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                <span>👥</span> Employees
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                <span>📂</span> Projects
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                <span>💰</span> Finance
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                <span>⚙️</span> Settings
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-800">
+             <div class="flex items-center gap-3">
+                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500"></div>
+                 <div>
+                     <div class="font-medium">Admin User</div>
+                     <div class="text-xs text-slate-500">View Profile</div>
+                 </div>
+             </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+        <!-- Header -->
+        <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-10">
+            <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">🔔</button>
+                <button class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition">+ New Project</button>
+            </div>
+        </header>
+
+        <!-- Scrollable Area -->
+        <div class="flex-1 overflow-y-auto p-8 max-w-7xl mx-auto w-full">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <div class="text-gray-500 mb-2 font-medium">Total Revenue</div>
+                    <div class="text-3xl font-bold text-gray-800">$124,500</div>
+                    <div class="text-green-500 text-sm mt-2">↑ 12% vs last month</div>
+                </div>
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <div class="text-gray-500 mb-2 font-medium">Active Projects</div>
+                    <div class="text-3xl font-bold text-gray-800">14</div>
+                    <div class="text-blue-500 text-sm mt-2">3 pending review</div>
+                </div>
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <div class="text-gray-500 mb-2 font-medium">Team Members</div>
+                    <div class="text-3xl font-bold text-gray-800">48</div>
+                    <div class="text-gray-400 text-sm mt-2">2 on leave</div>
+                </div>
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <div class="text-gray-500 mb-2 font-medium">Tasks Completed</div>
+                    <div class="text-3xl font-bold text-gray-800">892</div>
+                    <div class="text-green-500 text-sm mt-2">↑ 5% vs last week</div>
+                </div>
+            </div>
+
+            <!-- Charts & Tables Layout -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Activity Chart -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-lg text-gray-800">Activity Report</h3>
+                        <select class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-1 text-sm"><option>This Week</option></select>
+                    </div>
+                    <!-- Mock Chart Bars -->
+                    <div class="h-64 flex items-end justify-between gap-2 px-2">
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[40%] hover:bg-blue-500 transition relative group"></div>
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[60%] hover:bg-blue-500 transition"></div>
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[30%] hover:bg-blue-500 transition"></div>
+                        <div class="w-full bg-blue-500 rounded-t-lg h-[80%] shadow-lg shadow-blue-500/30"></div>
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[55%] hover:bg-blue-500 transition"></div>
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[45%] hover:bg-blue-500 transition"></div>
+                        <div class="w-full bg-blue-100 rounded-t-lg h-[70%] hover:bg-blue-500 transition"></div>
+                    </div>
+                    <div class="flex justify-between mt-4 text-xs text-gray-400 font-medium uppercase">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                </div>
+
+                <!-- Recent Activity List -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                     <h3 class="font-bold text-lg text-gray-800 mb-6">Recent Activity</h3>
+                     <div class="space-y-6">
+                         <div class="flex gap-4">
+                             <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">JD</div>
+                             <div>
+                                 <div class="text-sm font-bold text-gray-800">John Doe</div>
+                                 <div class="text-xs text-gray-500">Completed task "Homepage UI"</div>
+                             </div>
+                             <div class="ml-auto text-xs text-gray-400">2m</div>
+                         </div>
+                         <div class="flex gap-4">
+                             <div class="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold">AS</div>
+                             <div>
+                                 <div class="text-sm font-bold text-gray-800">Sarah Smith</div>
+                                 <div class="text-xs text-gray-500">Uploaded new assets</div>
+                             </div>
+                             <div class="ml-auto text-xs text-gray-400">1h</div>
+                         </div>
+                         <div class="flex gap-4">
+                             <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">MP</div>
+                             <div>
+                                 <div class="text-sm font-bold text-gray-800">Mike P.</div>
+                                 <div class="text-xs text-gray-500">Commented on "Brand Guide"</div>
+                             </div>
+                             <div class="ml-auto text-xs text-gray-400">3h</div>
+                         </div>
+                     </div>
+                     <button class="w-full mt-6 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50">View All</button>
+                </div>
+            </div>
+
+            <!-- Project Table -->
+            <div class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500">
+                            <th class="px-6 py-4 font-semibold">Project Name</th>
+                            <th class="px-6 py-4 font-semibold">Status</th>
+                            <th class="px-6 py-4 font-semibold">Team</th>
+                            <th class="px-6 py-4 font-semibold">Completion</th>
+                            <th class="px-6 py-4 font-semibold text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-sm">
+                        <tr>
+                            <td class="px-6 py-4 font-bold text-gray-800">Website Redesign</td>
+                            <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Active</span></td>
+                            <td class="px-6 py-4 flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-white"></div>
+                            </td>
+                            <td class="px-6 py-4"><div class="w-24 h-2 bg-gray-100 rounded-full"><div class="h-full bg-green-500 w-3/4 rounded-full"></div></div></td>
+                            <td class="px-6 py-4 text-right text-gray-400 hover:text-gray-600 cursor-pointer">•••</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-bold text-gray-800">Mobile App Beta</td>
+                            <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold">Planned</span></td>
+                            <td class="px-6 py-4 flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
+                            </td>
+                            <td class="px-6 py-4"><div class="w-24 h-2 bg-gray-100 rounded-full"><div class="h-full bg-yellow-500 w-1/4 rounded-full"></div></div></td>
+                            <td class="px-6 py-4 text-right text-gray-400 hover:text-gray-600 cursor-pointer">•••</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

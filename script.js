@@ -144,6 +144,7 @@ window.navigateTo = function (page) {
    // Mobile Sidebar Auto-Close
    const sidebar = document.getElementById('sidebar');
    if (window.innerWidth < 768 && sidebar) {
+      sidebar.classList.remove('translate-x-0');
       sidebar.classList.add('-translate-x-full');
    }
 };

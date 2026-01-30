@@ -19,9 +19,14 @@ let state = {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-   checkAuth();
-   initCharts();
-   initSlider();
+   console.log('NexusSys Core: System Booting...');
+   try {
+      checkAuth();
+      initCharts();
+      initSlider();
+   } catch (err) {
+      console.error('NexusSys Core Error during init:', err);
+   }
 
    // Check local storage for dark mode
    if (localStorage.getItem('darkMode') === 'true') {
@@ -62,6 +67,7 @@ function handleLogout() {
 
 // Navigation
 function navigateTo(page) {
+   console.log('Navigating to:', page);
    const titles = {
       'dashboard': 'System Overview',
       'employees': 'Team Directory',
@@ -72,7 +78,8 @@ function navigateTo(page) {
       'settings': 'System Preferences'
    };
 
-   document.getElementById('pageTitle').textContent = titles[page] || titles['dashboard'];
+   const pageTitle = document.getElementById('pageTitle');
+   if (pageTitle) pageTitle.textContent = titles[page] || titles['dashboard'];
 
    const views = ['dashboardView', 'employeesView', 'profileView', 'settingsView', 'genericView'];
    views.forEach(v => {
@@ -80,27 +87,37 @@ function navigateTo(page) {
       if (el) el.classList.add('hidden');
    });
 
-   const targetView = document.getElementById(`${page}View`) || document.getElementById('genericView');
-   if (targetView) targetView.classList.remove('hidden');
+   const targetViewId = `${page}View`;
+   let targetView = document.getElementById(targetViewId);
 
-   if (page === 'dashboard') {
-      renderDashboard();
-   } else if (page === 'employees') {
-      renderEmployees();
-   } else if (page === 'analytics') {
-      runBudgetAnalysis();
+   if (!targetView) {
+      targetView = document.getElementById('genericView');
+      const gTitle = document.getElementById('genericTitle');
+      const gDesc = document.getElementById('genericDesc');
+      if (gTitle) gTitle.textContent = titles[page] || 'Module';
+      if (gDesc) gDesc.textContent = `Accessing the ${titles[page] || 'system'} module details...`;
    }
 
-   // Update active state in sidebar
-   document.querySelectorAll('.sidebar-link').forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('onclick').includes(page)) link.classList.add('active');
+   if (targetView) targetView.classList.remove('hidden');
+
+   // Run specific renders
+   if (page === 'dashboard') renderDashboard();
+   else if (page === 'employees') renderEmployees();
+   else if (page === 'analytics') runBudgetAnalysis();
+
+   // Update active state in ALL navigation elements
+   document.querySelectorAll('[onclick*="navigateTo"]').forEach(link => {
+      link.classList.remove('active', 'bg-white/10', 'text-white');
+      if (link.getAttribute('onclick').includes(`'${page}'`)) {
+         link.classList.add('active', 'bg-white/10', 'text-white');
+      }
    });
 
    // Auto-close sidebar on mobile
-   if (window.innerWidth < 768) {
-      document.getElementById('sidebar').classList.remove('translate-x-0');
-      document.getElementById('sidebar').classList.add('-translate-x-full');
+   const sidebar = document.getElementById('sidebar');
+   if (window.innerWidth < 768 && sidebar) {
+      sidebar.classList.remove('translate-x-0');
+      sidebar.classList.add('-translate-x-full');
    }
 }
 
@@ -227,26 +244,40 @@ function showToast(msg, type) {
 }
 
 function initCharts() {
+   console.log('Initializing charts...');
    const ctx = document.getElementById('revenueChart');
-   if (!ctx) return;
-   new Chart(ctx, {
-      type: 'line',
-      data: {
-         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-         datasets: [{
-            label: 'Revenue Trend',
-            data: [12, 19, 13, 15, 22, 30],
-            borderColor: '#6366f1',
-            tension: 0.4
-         }]
-      },
-      options: {
-         responsive: true,
-         maintainAspectRatio: false,
-         plugins: { legend: { display: false } },
-         scales: { y: { display: false }, x: { grid: { display: false } } }
+   if (!ctx) {
+      console.warn('Revenue chart container not found.');
+      return;
+   }
+
+   try {
+      if (typeof Chart === 'undefined') {
+         console.error('Chart.js not loaded!');
+         return;
       }
-   });
+      new Chart(ctx, {
+         type: 'line',
+         data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+               label: 'Revenue Trend',
+               data: [12, 19, 13, 15, 22, 30],
+               borderColor: '#6366f1',
+               tension: 0.4
+            }]
+         },
+         options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { display: false }, x: { grid: { display: false } } }
+         }
+      });
+      console.log('Charts initialized successfully.');
+   } catch (e) {
+      console.error('Chart initialization failed:', e);
+   }
 }
 
 function initSlider() {

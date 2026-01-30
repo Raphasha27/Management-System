@@ -52,21 +52,36 @@ A real-time telemetry engine tracks bag temperatures during transit. If the temp
 
 ---
 
-## 💻 Local Setup & Deployment
+## 💻 Quick Start
 
+### One-Click Launch (Windows)
+```powershell
+cd pharmalink
+./START_PHARMALINK.ps1
+```
+
+This will:
+1. Start the backend API on `http://localhost:3000`
+2. Open the dashboard in your default browser
+3. Keep both services running simultaneously
+
+### Manual Setup
 ```bash
-# Clone the repository
-git clone https://github.com/Raphasha27/PharmaLink-Core.git
-
 # Install Backend Dependencies
 cd pharmalink/backend
 npm install
 
-# Start the Engine
-npm start
+# Start Backend (in background)
+npm start &
+
+# Open Frontend
+start ../index.html
 ```
 
-Open `index.html` to view the **Master Control Dashboard** locally.
+---
+
+## 🌐 Live Demo
+**GitHub Pages:** [https://raphasha27.github.io/Management-System/](https://raphasha27.github.io/Management-System/)
 
 ---
 

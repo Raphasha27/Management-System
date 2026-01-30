@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusSys - Management Dashboard</title>
+    <title>NexusSys - Dashboard</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="NexusSys is a premium management system for tracking projects, employees, and financial analytics.">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -22,768 +29,239 @@
             }
         }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .dark .glass { background: rgba(30, 27, 75, 0.85); border-color: rgba(255, 255, 255, 0.1); }
-        .dark-glass { background: rgba(15, 13, 36, 0.95); backdrop-filter: blur(20px); }
-        .stat-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15); }
-        .sidebar-link { transition: all 0.2s ease; }
-        .sidebar-link:hover { background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), transparent); }
-        .sidebar-link.active { background: linear-gradient(90deg, rgba(99, 102, 241, 0.3), transparent); border-left: 3px solid #6366f1; }
-        .pulse-dot { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .slide-in { animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .modal-bg { transition: opacity 0.3s ease; }
-        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-track { background: #1e1b4b; }
-        .dark ::-webkit-scrollbar-thumb { background: #4338ca; }
-        .toast { animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards; }
-        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-    </style>
 </head>
-<body class="bg-slate-50 dark:bg-dark-900 min-h-screen transition-colors duration-300">
-    <!-- Toast Container -->
-    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
-    <!-- Modals -->
-    <!-- New Project Modal -->
-    <div id="newProjectModal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-bg absolute inset-0 bg-black/50" onclick="closeModal('newProjectModal')"></div>
-        <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white dark:bg-dark-800 rounded-2xl shadow-2xl p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-white">Create New Project</h3>
-                <button onclick="closeModal('newProjectModal')" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 flex items-center justify-center">
-                    <i class="fas fa-times text-slate-400"></i>
-                </button>
+<body class="bg-slate-50 dark:bg-dark-900 min-h-screen transition-colors duration-300">
+    <div class="bg-mesh"></div>
+
+    <!-- Login View -->
+    <div id="loginView"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-50 dark:bg-dark-900 overflow-y-auto transition-all duration-500">
+        <div class="login-container w-full max-w-md p-8 rounded-3xl animate-fadeIn">
+            <div class="text-center mb-8">
+                <div
+                    class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <i class="fas fa-cube text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">NexusSys</h1>
+                <p class="text-slate-500">Enterprise Resource Planning</p>
             </div>
-            <form id="newProjectForm" onsubmit="createProject(event)">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Project Name</label>
-                        <input type="text" id="projectName" required class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-900 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
-                        <select id="projectStatus" class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-900 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500">
-                            <option value="active">Active</option>
-                            <option value="planning">Planning</option>
-                            <option value="review">In Review</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Due Date</label>
-                        <input type="date" id="projectDue" required class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-900 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Team Size</label>
-                        <input type="number" id="projectTeam" min="1" max="20" value="1" class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-900 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500">
-                    </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email
+                        Address</label>
+                    <input type="email" id="loginEmail" value="admin@nexussys.com" required
+                        class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-800 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500 transition outline-none">
                 </div>
-                <div class="flex gap-3 mt-6">
-                    <button type="button" onclick="closeModal('newProjectModal')" class="flex-1 px-4 py-3 bg-slate-100 dark:bg-dark-900 text-slate-600 dark:text-slate-300 rounded-xl font-medium hover:bg-slate-200 dark:hover:bg-white/10 transition">Cancel</button>
-                    <button type="submit" class="flex-1 px-4 py-3 bg-gradient-to-r from-primary-500 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg transition">Create Project</button>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Password</label>
+                    <input type="password" id="loginPass" value="password" required
+                        class="w-full px-4 py-3 bg-slate-100 dark:bg-dark-800 border-0 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-primary-500 transition outline-none">
                 </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-primary-500 to-purple-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary-500/30 hover:scale-[1.02] active:scale-95 transition">
+                    Enter Dashboard
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- Notifications Modal -->
-    <div id="notificationsModal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-bg absolute inset-0 bg-black/50" onclick="closeModal('notificationsModal')"></div>
-        <div class="modal-content absolute top-20 right-8 w-96 bg-white dark:bg-dark-800 rounded-2xl shadow-2xl overflow-hidden">
-            <div class="p-4 border-b border-slate-100 dark:border-white/10 flex items-center justify-between">
-                <h3 class="font-bold text-slate-800 dark:text-white">Notifications</h3>
-                <button onclick="clearNotifications()" class="text-sm text-primary-500 hover:underline">Mark all read</button>
-            </div>
-            <div id="notificationsList" class="max-h-96 overflow-y-auto">
-                <!-- Notifications will be rendered here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-bg absolute inset-0 bg-black/50" onclick="closeModal('settingsModal')"></div>
-        <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-dark-800 rounded-2xl shadow-2xl p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-white">Settings</h3>
-                <button onclick="closeModal('settingsModal')" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 flex items-center justify-center">
-                    <i class="fas fa-times text-slate-400"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <div>
-                        <div class="font-medium text-slate-800 dark:text-white">Dark Mode</div>
-                        <div class="text-sm text-slate-500">Toggle dark/light theme</div>
-                    </div>
-                    <button onclick="toggleDarkMode()" id="darkModeToggle" class="w-12 h-6 bg-slate-300 dark:bg-primary-500 rounded-full relative transition-colors">
-                        <div class="absolute top-1 left-1 dark:left-7 w-4 h-4 bg-white rounded-full transition-all shadow"></div>
-                    </button>
-                </div>
-                <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <div>
-                        <div class="font-medium text-slate-800 dark:text-white">Notifications</div>
-                        <div class="text-sm text-slate-500">Enable push notifications</div>
-                    </div>
-                    <button id="notifToggle" onclick="toggleNotifications()" class="w-12 h-6 bg-primary-500 rounded-full relative transition-colors">
-                        <div class="absolute top-1 left-7 w-4 h-4 bg-white rounded-full transition-all shadow"></div>
-                    </button>
-                </div>
-                <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <div>
-                        <div class="font-medium text-slate-800 dark:text-white">Sound Effects</div>
-                        <div class="text-sm text-slate-500">Play sounds on actions</div>
-                    </div>
-                    <button id="soundToggle" onclick="toggleSound()" class="w-12 h-6 bg-slate-300 rounded-full relative transition-colors">
-                        <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-all shadow"></div>
-                    </button>
-                </div>
-            </div>
-            <button onclick="closeModal('settingsModal')" class="w-full mt-6 px-4 py-3 bg-gradient-to-r from-primary-500 to-purple-600 text-white rounded-xl font-medium">Save Settings</button>
-        </div>
-    </div>
-
-    <!-- Profile Modal -->
-    <div id="profileModal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-bg absolute inset-0 bg-black/50" onclick="closeModal('profileModal')"></div>
-        <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-dark-800 rounded-2xl shadow-2xl p-6">
-            <div class="text-center mb-6">
-                <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-primary-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white mx-auto mb-4">RA</div>
-                <h3 class="text-xl font-bold text-slate-800 dark:text-white">Raphasha Admin</h3>
-                <p class="text-slate-500">Super Admin</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <i class="fas fa-envelope text-primary-500 w-5"></i>
-                    <span class="text-slate-600 dark:text-slate-300">admin@nexussys.com</span>
-                </div>
-                <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <i class="fas fa-phone text-primary-500 w-5"></i>
-                    <span class="text-slate-600 dark:text-slate-300">+27 123 456 789</span>
-                </div>
-                <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-dark-900 rounded-xl">
-                    <i class="fas fa-calendar text-primary-500 w-5"></i>
-                    <span class="text-slate-600 dark:text-slate-300">Joined: Jan 2024</span>
-                </div>
-            </div>
-            <div class="flex gap-3 mt-6">
-                <button onclick="closeModal('profileModal')" class="flex-1 px-4 py-3 bg-slate-100 dark:bg-dark-900 text-slate-600 dark:text-slate-300 rounded-xl font-medium">Close</button>
-                <button onclick="showToast('Profile editing coming soon!', 'info')" class="flex-1 px-4 py-3 bg-gradient-to-r from-primary-500 to-purple-600 text-white rounded-xl font-medium">Edit Profile</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex h-screen overflow-hidden">
+    <!-- Main App Body -->
+    <div id="appBody" class="hidden flex flex-col md:flex-row h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-72 dark-glass text-white flex flex-col border-r border-white/5">
-            <div class="h-20 flex items-center px-6 border-b border-white/10">
+        <aside id="sidebar"
+            class="fixed md:relative inset-y-0 left-0 z-50 w-72 dark-glass text-white flex flex-col border-r border-white/5 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-out shadow-2xl md:shadow-none">
+            <div class="h-20 flex items-center justify-between px-6 border-b border-white/10">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('dashboard')">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
                         <i class="fas fa-cube text-white"></i>
                     </div>
                     <span class="text-xl font-bold">Nexus<span class="text-primary-500">Sys</span></span>
                 </div>
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-white/50 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-                <div class="text-xs uppercase text-slate-500 font-semibold px-4 mb-3">Main Menu</div>
-                <a href="#" onclick="navigateTo('dashboard')" data-page="dashboard" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-xl text-white">
-                    <i class="fas fa-th-large w-5"></i>
-                    <span>Dashboard</span>
-                    <span class="ml-auto bg-primary-500 text-xs px-2 py-0.5 rounded-full">New</span>
+                <a href="#" onclick="navigateTo('dashboard')" data-page="dashboard"
+                    class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition">
+                    <i class="fas fa-th-large w-5"></i><span>Dashboard</span>
                 </a>
-                <a href="#" onclick="navigateTo('employees')" data-page="employees" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-users w-5"></i>
-                    <span>Employees</span>
-                    <span class="ml-auto text-xs text-slate-500" id="employeeCount">48</span>
+                <a href="#" onclick="navigateTo('employees')" data-page="employees"
+                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition">
+                    <i class="fas fa-users w-5"></i><span>Employees</span><span class="ml-auto text-xs opacity-50"
+                        id="employeeCount">48</span>
                 </a>
-                <a href="#" onclick="navigateTo('projects')" data-page="projects" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-folder-open w-5"></i>
-                    <span>Projects</span>
-                    <span class="ml-auto text-xs text-slate-500" id="projectCount">14</span>
+                <a href="#" onclick="navigateTo('projects')" data-page="projects"
+                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition">
+                    <i class="fas fa-folder-open w-5"></i><span>Projects</span>
                 </a>
-                <a href="#" onclick="navigateTo('analytics')" data-page="analytics" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-chart-pie w-5"></i>
-                    <span>Analytics</span>
-                </a>
-                <a href="#" onclick="navigateTo('finance')" data-page="finance" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-wallet w-5"></i>
-                    <span>Finance</span>
+                <a href="#" onclick="navigateTo('analytics')" data-page="analytics"
+                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition">
+                    <i class="fas fa-chart-pie w-5"></i><span>Analytics</span>
                 </a>
 
-                <div class="text-xs uppercase text-slate-500 font-semibold px-4 mb-3 mt-8">Settings</div>
-                <a href="#" onclick="openModal('settingsModal')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-cog w-5"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="#" onclick="showToast('Help Center coming soon!', 'info')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white">
-                    <i class="fas fa-question-circle w-5"></i>
-                    <span>Help Center</span>
+                <div class="pt-8 text-xs uppercase text-slate-500 font-bold px-4 mb-2">Account</div>
+                <a href="#" onclick="handleLogout()"
+                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/5 transition">
+                    <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
                 </a>
             </nav>
-
-            <div class="p-4 border-t border-white/10">
-                <div onclick="openModal('profileModal')" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-pink-500 flex items-center justify-center text-sm font-bold">RA</div>
-                    <div class="flex-1">
-                        <div class="font-medium text-sm">Raphasha Admin</div>
-                        <div class="text-xs text-slate-500">Super Admin</div>
-                    </div>
-                    <i class="fas fa-chevron-right text-slate-500 text-xs"></i>
-                </div>
-            </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-20 bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between px-8 z-10">
-                <div>
-                    <h1 id="pageTitle" class="text-2xl font-bold text-slate-800 dark:text-white">Dashboard</h1>
-                    <p class="text-sm text-slate-500">Welcome back, here's what's happening today.</p>
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+            <!-- Header -->
+            <header
+                class="h-20 bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/5 flex items-center justify-between px-4 md:px-8 z-30">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleMobileSidebar()"
+                        class="md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-900 flex items-center justify-center">
+                        <i class="fas fa-bars text-slate-600 dark:text-slate-300"></i>
+                    </button>
+                    <h1 id="pageTitle" class="text-xl font-bold text-slate-800 dark:text-white truncate">Dashboard</h1>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <input type="text" id="searchInput" onkeyup="handleSearch(event)" placeholder="Search..." class="w-64 pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-dark-900 border-0 rounded-xl text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50">
-                        <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    </div>
-                    <button onclick="openModal('notificationsModal')" id="notifBtn" class="relative w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-900 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-white/10 transition">
-                        <i class="fas fa-bell text-slate-600 dark:text-slate-300"></i>
-                        <span id="notifBadge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                <div class="flex items-center gap-2 md:gap-4">
+                    <button onclick="toggleDarkMode()"
+                        class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-900 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-white/10 transition">
+                        <i class="fas fa-moon dark:hidden"></i><i
+                            class="fas fa-sun hidden dark:block text-yellow-500"></i>
                     </button>
-                    <button onclick="toggleDarkMode()" id="themeBtn" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-900 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-white/10 transition">
-                        <i class="fas fa-moon dark:hidden text-slate-600"></i>
-                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
-                    </button>
-                    <button onclick="openModal('newProjectModal')" class="bg-gradient-to-r from-primary-500 to-purple-600 text-white px-5 py-2.5 rounded-xl font-medium hover:shadow-lg hover:shadow-primary-500/30 transition flex items-center gap-2">
-                        <i class="fas fa-plus text-sm"></i>
-                        New Project
+                    <button onclick="openModal('newProjectModal')"
+                        class="bg-primary-500 text-white w-10 md:w-auto md:px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i><span class="hidden md:inline">Project</span>
                     </button>
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 dark:bg-dark-900">
-                <div class="max-w-7xl mx-auto space-y-8">
-                    <!-- Stats Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 fade-in">
-                        <div onclick="navigateTo('finance')" class="stat-card glass p-6 rounded-2xl cursor-pointer">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
-                                    <i class="fas fa-dollar-sign text-white text-lg"></i>
-                                </div>
-                                <span class="flex items-center gap-1 text-green-600 text-sm font-medium bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-lg">
-                                    <i class="fas fa-arrow-up text-xs"></i> 12.5%
-                                </span>
-                            </div>
-                            <div id="revenueValue" class="text-3xl font-bold text-slate-800 dark:text-white">$124,563</div>
-                            <div class="text-slate-500 text-sm mt-1">Total Revenue</div>
-                            <div class="mt-4 h-1.5 bg-slate-100 dark:bg-dark-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-green-400 to-emerald-600 rounded-full" style="width: 78%"></div>
-                            </div>
-                        </div>
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8">
+                <!-- AI Insight Banner -->
+                <div
+                    class="insight-card p-4 md:p-6 rounded-2xl md:rounded-3xl flex flex-col md:flex-row items-center gap-4 md:gap-6 animate-fadeIn">
+                    <div
+                        class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-white dark:bg-white/10 flex items-center justify-center shadow-lg">
+                        <i class="fas fa-brain text-2xl text-primary-500"></i>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h2 class="font-bold text-slate-800 dark:text-white">AI Engine v3.0</h2>
+                        <p class="text-slate-500 text-sm" id="aiInsightText">Loading live insights...</p>
+                    </div>
+                    <button onclick="generateInsight()"
+                        class="px-4 py-2 bg-primary-500 text-white rounded-xl text-xs font-bold hover:scale-105 transition">Recalculate</button>
+                </div>
 
-                        <div onclick="navigateTo('projects')" class="stat-card glass p-6 rounded-2xl cursor-pointer">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
-                                    <i class="fas fa-briefcase text-white text-lg"></i>
-                                </div>
-                                <span class="flex items-center gap-1 text-blue-600 text-sm font-medium bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-lg">
-                                    3 pending
-                                </span>
+                <!-- Dashboard View -->
+                <div id="dashboardView" class="space-y-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                        <div class="stat-card glass p-6 rounded-2xl">
+                            <i class="fas fa-dollar-sign text-green-500 text-2xl mb-4"></i>
+                            <div id="revenueValue" class="text-2xl font-bold text-slate-800 dark:text-white">$124,563
                             </div>
-                            <div id="projectsValue" class="text-3xl font-bold text-slate-800 dark:text-white">14</div>
-                            <div class="text-slate-500 text-sm mt-1">Active Projects</div>
-                            <div class="mt-4 flex -space-x-2">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 border-2 border-white dark:border-dark-800"></div>
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 border-2 border-white dark:border-dark-800"></div>
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white dark:border-dark-800"></div>
-                                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-dark-800 border-2 border-white dark:border-dark-800 flex items-center justify-center text-xs font-medium text-slate-600 dark:text-slate-300">+5</div>
-                            </div>
+                            <div class="text-slate-500 text-sm">Revenue Forecast</div>
                         </div>
-
-                        <div onclick="navigateTo('employees')" class="stat-card glass p-6 rounded-2xl cursor-pointer">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-violet-600 flex items-center justify-center">
-                                    <i class="fas fa-users text-white text-lg"></i>
-                                </div>
-                                <span class="flex items-center gap-1 text-purple-600 text-sm font-medium bg-purple-100 dark:bg-purple-900/30 px-2 py-1 rounded-lg">
-                                    <span class="pulse-dot w-2 h-2 bg-green-500 rounded-full"></span> Online
-                                </span>
-                            </div>
-                            <div id="teamValue" class="text-3xl font-bold text-slate-800 dark:text-white">48</div>
-                            <div class="text-slate-500 text-sm mt-1">Team Members</div>
-                            <div class="mt-4 text-xs text-slate-400">
-                                <span class="text-green-500 font-medium">42 active</span> - 4 on leave - 2 offline
-                            </div>
+                        <div class="stat-card glass p-6 rounded-2xl">
+                            <i class="fas fa-users text-blue-500 text-2xl mb-4"></i>
+                            <div class="text-2xl font-bold text-slate-800 dark:text-white">48</div>
+                            <div class="text-slate-500 text-sm">Team Members</div>
                         </div>
-
-                        <div onclick="navigateTo('analytics')" class="stat-card glass p-6 rounded-2xl cursor-pointer">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
-                                    <i class="fas fa-check-circle text-white text-lg"></i>
-                                </div>
-                                <span class="flex items-center gap-1 text-amber-600 text-sm font-medium bg-amber-100 dark:bg-amber-900/30 px-2 py-1 rounded-lg">
-                                    <i class="fas fa-arrow-up text-xs"></i> 8.2%
-                                </span>
-                            </div>
-                            <div id="tasksValue" class="text-3xl font-bold text-slate-800 dark:text-white">892</div>
-                            <div class="text-slate-500 text-sm mt-1">Tasks Completed</div>
-                            <div class="mt-4 h-1.5 bg-slate-100 dark:bg-dark-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-amber-400 to-orange-600 rounded-full" style="width: 65%"></div>
-                            </div>
+                        <div class="stat-card glass p-6 rounded-2xl">
+                            <i class="fas fa-project-diagram text-purple-500 text-2xl mb-4"></i>
+                            <div class="text-2xl font-bold text-slate-800 dark:text-white">14</div>
+                            <div class="text-slate-500 text-sm">Active Projects</div>
+                        </div>
+                        <div class="stat-card glass p-6 rounded-2xl">
+                            <i class="fas fa-tasks text-amber-500 text-2xl mb-4"></i>
+                            <div class="text-2xl font-bold text-slate-800 dark:text-white">892</div>
+                            <div class="text-slate-500 text-sm">Tasks Closed</div>
                         </div>
                     </div>
 
-                    <!-- Charts Row -->
-                    <div class="grid lg:grid-cols-3 gap-6 fade-in">
-                        <div class="lg:col-span-2 glass p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-6">
-                                <div>
-                                    <h3 class="font-bold text-lg text-slate-800 dark:text-white">Revenue Analytics</h3>
-                                    <p class="text-sm text-slate-500">Monthly revenue breakdown</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button onclick="updateChart('monthly')" id="monthlyBtn" class="px-4 py-2 bg-primary-500 text-white text-sm rounded-lg font-medium">Monthly</button>
-                                    <button onclick="updateChart('weekly')" id="weeklyBtn" class="px-4 py-2 bg-slate-100 dark:bg-dark-900 text-slate-600 dark:text-slate-300 text-sm rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-white/10">Weekly</button>
-                                </div>
-                            </div>
-                            <canvas id="revenueChart" height="120"></canvas>
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="glass p-6 rounded-2xl h-[300px] flex items-center justify-center">
+                            <canvas id="revenueChart"></canvas>
                         </div>
-
                         <div class="glass p-6 rounded-2xl">
-                            <h3 class="font-bold text-lg text-slate-800 dark:text-white mb-2">Project Status</h3>
-                            <p class="text-sm text-slate-500 mb-6">Distribution by status</p>
-                            <canvas id="statusChart" height="200"></canvas>
-                            <div class="mt-6 space-y-3">
-                                <div class="flex items-center justify-between text-sm">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                        <span class="text-slate-600 dark:text-slate-300">Completed</span>
-                                    </div>
-                                    <span class="font-medium text-slate-800 dark:text-white">45%</span>
-                                </div>
-                                <div class="flex items-center justify-between text-sm">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-                                        <span class="text-slate-600 dark:text-slate-300">In Progress</span>
-                                    </div>
-                                    <span class="font-medium text-slate-800 dark:text-white">35%</span>
-                                </div>
-                                <div class="flex items-center justify-between text-sm">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                                        <span class="text-slate-600 dark:text-slate-300">Pending</span>
-                                    </div>
-                                    <span class="font-medium text-slate-800 dark:text-white">20%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity & Table Row -->
-                    <div class="grid lg:grid-cols-3 gap-6 fade-in">
-                        <div class="glass p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="font-bold text-lg text-slate-800 dark:text-white">Recent Activity</h3>
-                                <button onclick="showToast('Viewing all activities...', 'info')" class="text-primary-500 text-sm font-medium hover:underline">View All</button>
-                            </div>
-                            <div id="activityList" class="space-y-4">
-                                <!-- Activities rendered by JS -->
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-2 glass rounded-2xl overflow-hidden">
-                            <div class="p-6 border-b border-slate-100 dark:border-white/10">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="font-bold text-lg text-slate-800 dark:text-white">Active Projects</h3>
-                                    <button onclick="navigateTo('projects')" class="text-sm text-primary-500 font-medium hover:underline">See All Projects</button>
-                                </div>
-                            </div>
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="bg-slate-50 dark:bg-dark-900 text-xs uppercase text-slate-500">
-                                        <th class="px-6 py-4 text-left font-semibold">Project</th>
-                                        <th class="px-6 py-4 text-left font-semibold">Status</th>
-                                        <th class="px-6 py-4 text-left font-semibold">Team</th>
-                                        <th class="px-6 py-4 text-left font-semibold">Progress</th>
-                                        <th class="px-6 py-4 text-right font-semibold">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="projectsTable" class="divide-y divide-slate-100 dark:divide-white/10">
-                                    <!-- Projects rendered by JS -->
-                                </tbody>
-                            </table>
+                            <h3 class="font-bold mb-4">Recent Projects</h3>
+                            <div id="projectsTable" class="space-y-4"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Employees View -->
+                <div id="employeesView" class="hidden space-y-6">
+                    <h2 class="text-2xl font-bold">Team Directory</h2>
+                    <div id="employeesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+
+                <!-- Generic View -->
+                <div id="genericView" class="hidden">
+                    <div class="glass p-12 rounded-3xl text-center" id="genericContent">
+                        <h2 id="genericTitle" class="text-3xl font-bold mb-4">Analytics</h2>
+                        <div id="genericDesc" class="text-slate-500">Crunching numbers...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partner Slider -->
+            <div
+                class="bg-white/50 dark:bg-dark-900/50 py-4 border-t border-slate-200 dark:border-white/5 overflow-hidden whitespace-nowrap">
+                <div id="partnerSlider" class="flex animate-scroll"></div>
             </div>
         </main>
     </div>
 
-    <script>
-        // State Management
-        let state = {
-            darkMode: false,
-            notifications: [
-                { id: 1, title: 'New project assigned', message: 'You have been added to Website Redesign', time: '2m ago', read: false },
-                { id: 2, title: 'Task completed', message: 'John completed Homepage UI task', time: '1h ago', read: false },
-                { id: 3, title: 'Meeting reminder', message: 'Team standup in 30 minutes', time: '2h ago', read: false }
-            ],
-            projects: [
-                { id: 1, name: 'Website Redesign', status: 'active', icon: 'globe', color: 'blue', team: 4, progress: 75, due: '5 days' },
-                { id: 2, name: 'Mobile App Beta', status: 'review', icon: 'mobile-alt', color: 'purple', team: 2, progress: 45, due: '2 weeks' },
-                { id: 3, name: 'E-Commerce Platform', status: 'planning', icon: 'shopping-cart', color: 'green', team: 5, progress: 20, due: '1 month' }
-            ],
-            activities: [
-                { initials: 'JD', name: 'John Doe', action: 'Completed Homepage UI task', time: '2m ago', color: 'purple' },
-                { initials: 'SS', name: 'Sarah Smith', action: 'Uploaded 12 new assets', time: '1h ago', color: 'pink' },
-                { initials: 'MP', name: 'Mike Peters', action: 'Created new project Brand Guide', time: '3h ago', color: 'blue' },
-                { initials: 'EW', name: 'Emily Wong', action: 'Reviewed PR #234', time: '5h ago', color: 'amber' }
-            ],
-            currentPage: 'dashboard'
-        };
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderNotifications();
-            renderProjects();
-            renderActivities();
-            initCharts();
-            
-            // Check for saved dark mode
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.documentElement.classList.add('dark');
-                state.darkMode = true;
-            }
-        });
-
-        // Toast Notifications
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500',
-                warning: 'bg-amber-500'
-            };
-            const icons = {
-                success: 'check-circle',
-                error: 'times-circle',
-                info: 'info-circle',
-                warning: 'exclamation-circle'
-            };
-            toast.className = `toast flex items-center gap-3 ${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg`;
-            toast.innerHTML = `<i class="fas fa-${icons[type]}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        // Modal Functions
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
-            if (id === 'notificationsModal') renderNotifications();
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            state.darkMode = !state.darkMode;
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', state.darkMode);
-            showToast(state.darkMode ? 'Dark mode enabled' : 'Light mode enabled', 'info');
-        }
-
-        // Navigation
-        function navigateTo(page) {
-            event.preventDefault();
-            state.currentPage = page;
-            
-            // Update sidebar
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                link.classList.remove('active', 'text-white');
-                link.classList.add('text-slate-400');
-            });
-            const activeLink = document.querySelector(`[data-page="${page}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active', 'text-white');
-                activeLink.classList.remove('text-slate-400');
-            }
-
-            // Update title
-            const titles = {
-                dashboard: 'Dashboard',
-                employees: 'Team Members',
-                projects: 'Projects',
-                analytics: 'Analytics',
-                finance: 'Finance'
-            };
-            document.getElementById('pageTitle').textContent = titles[page] || 'Dashboard';
-            showToast(`Navigated to ${titles[page]}`, 'info');
-        }
-
-        // Search
-        function handleSearch(e) {
-            const query = e.target.value.toLowerCase();
-            if (e.key === 'Enter' && query) {
-                showToast(`Searching for "${query}"...`, 'info');
-            }
-        }
-
-        // Notifications
-        function renderNotifications() {
-            const list = document.getElementById('notificationsList');
-            if (state.notifications.length === 0) {
-                list.innerHTML = '<div class="p-8 text-center text-slate-500">No notifications</div>';
-                return;
-            }
-            list.innerHTML = state.notifications.map(n => `
-                <div class="p-4 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer border-b border-slate-100 dark:border-white/10 ${n.read ? 'opacity-60' : ''}">
-                    <div class="flex items-start gap-3">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                            <i class="fas fa-bell text-primary-500"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium text-slate-800 dark:text-white text-sm">${n.title}</div>
-                            <div class="text-xs text-slate-500 mt-1">${n.message}</div>
-                            <div class="text-xs text-slate-400 mt-2">${n.time}</div>
-                        </div>
-                        ${!n.read ? '<div class="w-2 h-2 bg-primary-500 rounded-full"></div>' : ''}
-                    </div>
+    <!-- Chat Widget -->
+    <div class="chat-widget fixed bottom-6 right-6 z-40">
+        <div id="chatWindow"
+            class="chat-window hidden flex-col w-[320px] h-[400px] bg-white dark:bg-dark-800 rounded-2xl shadow-2xl mb-4 overflow-hidden border border-slate-200 dark:border-white/5">
+            <div class="bg-primary-500 p-4 text-white font-bold flex justify-between">
+                <span>Nexus AI</span>
+                <button onclick="toggleChat()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm"></div>
+            <div id="typingIndicator" class="hidden px-4 pb-2">
+                <div class="typing">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-            `).join('');
-        }
+            </div>
+            <div class="p-4 border-t border-slate-100 dark:border-white/5 flex gap-2">
+                <input type="text" id="chatInput"
+                    class="flex-1 bg-slate-100 dark:bg-dark-900 border-0 rounded-lg px-3 py-2 text-sm outline-none"
+                    placeholder="Ask anything..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()"
+                    class="bg-primary-500 text-white w-8 h-8 rounded-lg flex items-center justify-center"><i
+                        class="fas fa-paper-plane text-xs"></i></button>
+            </div>
+        </div>
+        <button id="chatBubble" onclick="toggleChat()"
+            class="w-14 h-14 rounded-full bg-primary-500 text-white shadow-xl flex items-center justify-center hover:scale-110 transition active:scale-95">
+            <i class="fas fa-comment-dots text-2xl"></i>
+        </button>
+    </div>
 
-        function clearNotifications() {
-            state.notifications.forEach(n => n.read = true);
-            document.getElementById('notifBadge').classList.add('hidden');
-            renderNotifications();
-            showToast('All notifications marked as read', 'success');
-        }
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-24 right-6 z-[100] space-y-2 pointer-events-none"></div>
 
-        // Projects
-        function renderProjects() {
-            const table = document.getElementById('projectsTable');
-            const statusColors = {
-                active: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-400', label: 'Active' },
-                review: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', label: 'In Review' },
-                planning: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-400', label: 'Planning' },
-                completed: { bg: 'bg-slate-100 dark:bg-slate-900/30', text: 'text-slate-700 dark:text-slate-400', label: 'Completed' }
-            };
-            const colors = { blue: 'from-blue-400 to-indigo-600', purple: 'from-purple-400 to-violet-600', green: 'from-green-400 to-emerald-600', amber: 'from-amber-400 to-orange-600' };
-            const progressColors = { active: 'bg-green-500', review: 'bg-amber-500', planning: 'bg-blue-500', completed: 'bg-slate-500' };
+    <!-- Modals -->
+    <div id="newProjectModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeModal('newProjectModal')"></div>
+        <div class="relative bg-white dark:bg-dark-800 w-full max-w-md rounded-2xl p-6 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4">New Project</h3>
+            <form onsubmit="createProject(event)" class="space-y-4">
+                <input type="text" id="projectName" placeholder="Project Title" required
+                    class="w-full bg-slate-100 dark:bg-dark-900 p-3 rounded-xl outline-none">
+                <button type="submit" class="w-full bg-primary-500 text-white py-3 rounded-xl font-bold">Create</button>
+            </form>
+        </div>
+    </div>
 
-            table.innerHTML = state.projects.map(p => `
-                <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${colors[p.color]} flex items-center justify-center">
-                                <i class="fas fa-${p.icon} text-white text-sm"></i>
-                            </div>
-                            <div>
-                                <div class="font-semibold text-slate-800 dark:text-white">${p.name}</div>
-                                <div class="text-xs text-slate-500">Due in ${p.due}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="${statusColors[p.status].bg} ${statusColors[p.status].text} px-3 py-1 rounded-full text-xs font-semibold">${statusColors[p.status].label}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex -space-x-2">
-                            ${Array(Math.min(p.team, 3)).fill().map((_, i) => `<div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-${4+i}00 to-rose-${5+i}00 border-2 border-white dark:border-dark-800"></div>`).join('')}
-                            ${p.team > 3 ? `<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-dark-800 border-2 border-white dark:border-dark-800 flex items-center justify-center text-xs font-medium text-slate-600 dark:text-slate-300">+${p.team - 3}</div>` : ''}
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-24 h-2 bg-slate-100 dark:bg-dark-800 rounded-full overflow-hidden">
-                                <div class="h-full ${progressColors[p.status]} rounded-full" style="width: ${p.progress}%"></div>
-                            </div>
-                            <span class="text-sm font-medium text-slate-600 dark:text-slate-300">${p.progress}%</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <div class="flex justify-end gap-2">
-                            <button onclick="editProject(${p.id})" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 transition flex items-center justify-center">
-                                <i class="fas fa-edit text-slate-400 text-sm"></i>
-                            </button>
-                            <button onclick="deleteProject(${p.id})" class="w-8 h-8 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition flex items-center justify-center">
-                                <i class="fas fa-trash text-red-400 text-sm"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-            
-            document.getElementById('projectCount').textContent = state.projects.length;
-            document.getElementById('projectsValue').textContent = state.projects.length;
-        }
-
-        function createProject(e) {
-            e.preventDefault();
-            const name = document.getElementById('projectName').value;
-            const status = document.getElementById('projectStatus').value;
-            const team = parseInt(document.getElementById('projectTeam').value);
-            const due = document.getElementById('projectDue').value;
-            
-            const icons = ['globe', 'mobile-alt', 'shopping-cart', 'code', 'database', 'cloud'];
-            const colors = ['blue', 'purple', 'green', 'amber'];
-            
-            state.projects.unshift({
-                id: Date.now(),
-                name,
-                status,
-                icon: icons[Math.floor(Math.random() * icons.length)],
-                color: colors[Math.floor(Math.random() * colors.length)],
-                team,
-                progress: status === 'completed' ? 100 : Math.floor(Math.random() * 30),
-                due: calculateDue(due)
-            });
-            
-            renderProjects();
-            closeModal('newProjectModal');
-            document.getElementById('newProjectForm').reset();
-            showToast(`Project "${name}" created!`, 'success');
-            
-            // Add activity
-            state.activities.unshift({
-                initials: 'RA',
-                name: 'Raphasha Admin',
-                action: `Created new project "${name}"`,
-                time: 'Just now',
-                color: 'purple'
-            });
-            renderActivities();
-        }
-
-        function calculateDue(dateStr) {
-            const diff = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24));
-            if (diff <= 0) return 'Overdue';
-            if (diff === 1) return '1 day';
-            if (diff < 7) return `${diff} days`;
-            if (diff < 30) return `${Math.ceil(diff / 7)} weeks`;
-            return `${Math.ceil(diff / 30)} months`;
-        }
-
-        function editProject(id) {
-            const project = state.projects.find(p => p.id === id);
-            showToast(`Editing "${project.name}"...`, 'info');
-        }
-
-        function deleteProject(id) {
-            const project = state.projects.find(p => p.id === id);
-            if (confirm(`Are you sure you want to delete "${project.name}"?`)) {
-                state.projects = state.projects.filter(p => p.id !== id);
-                renderProjects();
-                showToast(`Project "${project.name}" deleted`, 'warning');
-            }
-        }
-
-        // Activities
-        function renderActivities() {
-            const list = document.getElementById('activityList');
-            const colorMap = { purple: 'from-purple-400 to-violet-600', pink: 'from-pink-400 to-rose-600', blue: 'from-blue-400 to-indigo-600', amber: 'from-amber-400 to-orange-600' };
-            
-            list.innerHTML = state.activities.slice(0, 4).map(a => `
-                <div class="flex gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br ${colorMap[a.color]} flex items-center justify-center text-white text-sm font-bold">${a.initials}</div>
-                    <div class="flex-1">
-                        <div class="text-sm font-semibold text-slate-800 dark:text-white">${a.name}</div>
-                        <div class="text-xs text-slate-500">${a.action}</div>
-                    </div>
-                    <div class="text-xs text-slate-400">${a.time}</div>
-                </div>
-            `).join('');
-        }
-
-        // Charts
-        let revenueChart, statusChart;
-        
-        function initCharts() {
-            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-            revenueChart = new Chart(revenueCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [12000, 19000, 15000, 25000, 22000, 30000, 28000, 35000, 32000, 40000, 38000, 45000],
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#6366f1',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => '$' + (v / 1000) + 'k' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            const statusCtx = document.getElementById('statusChart').getContext('2d');
-            statusChart = new Chart(statusCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Completed', 'In Progress', 'Pending'],
-                    datasets: [{ data: [45, 35, 20], backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b'], borderWidth: 0, spacing: 4 }]
-                },
-                options: { responsive: true, cutout: '70%', plugins: { legend: { display: false } } }
-            });
-        }
-
-        function updateChart(type) {
-            document.getElementById('monthlyBtn').className = type === 'monthly' ? 'px-4 py-2 bg-primary-500 text-white text-sm rounded-lg font-medium' : 'px-4 py-2 bg-slate-100 dark:bg-dark-900 text-slate-600 dark:text-slate-300 text-sm rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-white/10';
-            document.getElementById('weeklyBtn').className = type === 'weekly' ? 'px-4 py-2 bg-primary-500 text-white text-sm rounded-lg font-medium' : 'px-4 py-2 bg-slate-100 dark:bg-dark-900 text-slate-600 dark:text-slate-300 text-sm rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-white/10';
-            
-            const weeklyData = [8000, 12000, 9500, 14000, 11000, 16000, 13500];
-            const monthlyData = [12000, 19000, 15000, 25000, 22000, 30000, 28000, 35000, 32000, 40000, 38000, 45000];
-            
-            revenueChart.data.labels = type === 'weekly' ? ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            revenueChart.data.datasets[0].data = type === 'weekly' ? weeklyData : monthlyData;
-            revenueChart.update();
-            showToast(`Switched to ${type} view`, 'info');
-        }
-
-        // Settings toggles
-        function toggleNotifications() {
-            const btn = document.getElementById('notifToggle');
-            btn.classList.toggle('bg-primary-500');
-            btn.classList.toggle('bg-slate-300');
-            btn.querySelector('div').classList.toggle('left-7');
-            btn.querySelector('div').classList.toggle('left-1');
-            showToast('Notification settings updated', 'success');
-        }
-
-        function toggleSound() {
-            const btn = document.getElementById('soundToggle');
-            btn.classList.toggle('bg-primary-500');
-            btn.classList.toggle('bg-slate-300');
-            btn.querySelector('div').classList.toggle('left-7');
-            btn.querySelector('div').classList.toggle('left-1');
-            showToast('Sound settings updated', 'success');
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>

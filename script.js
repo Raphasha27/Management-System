@@ -62,29 +62,33 @@ function handleLogout() {
 
 // Navigation
 function navigateTo(page) {
-   const views = ['dashboardView', 'employeesView', 'genericView'];
-   views.forEach(v => document.getElementById(v).classList.add('hidden'));
-
    const titles = {
       'dashboard': 'System Overview',
       'employees': 'Team Directory',
       'projects': 'Project Vault',
       'analytics': 'Market Intelligence',
-      'finance': 'Fiscal Analysis'
+      'finance': 'Fiscal Analysis',
+      'profile': 'Managed Account',
+      'settings': 'System Preferences'
    };
 
    document.getElementById('pageTitle').textContent = titles[page] || titles['dashboard'];
 
+   const views = ['dashboardView', 'employeesView', 'profileView', 'settingsView', 'genericView'];
+   views.forEach(v => {
+      const el = document.getElementById(v);
+      if (el) el.classList.add('hidden');
+   });
+
+   const targetView = document.getElementById(`${page}View`) || document.getElementById('genericView');
+   if (targetView) targetView.classList.remove('hidden');
+
    if (page === 'dashboard') {
-      document.getElementById('dashboardView').classList.remove('hidden');
       renderDashboard();
    } else if (page === 'employees') {
-      document.getElementById('employeesView').classList.remove('hidden');
       renderEmployees();
-   } else {
-      document.getElementById('genericView').classList.remove('hidden');
-      document.getElementById('genericTitle').textContent = titles[page];
-      if (page === 'analytics') runBudgetAnalysis();
+   } else if (page === 'analytics') {
+      runBudgetAnalysis();
    }
 
    // Update active state in sidebar
@@ -257,6 +261,27 @@ function initSlider() {
 function runBudgetAnalysis() {
    const desc = document.getElementById('genericDesc');
    desc.innerHTML = `<div class="p-6 bg-green-500/10 rounded-2xl border border-green-500/20 text-green-600 font-bold">Projected Profit: $${(state.budget.projected - state.budget.current).toLocaleString()} increase detected.</div>`;
+}
+
+// Profile Management
+function updateProfile(e) {
+   if (e) e.preventDefault();
+   const newName = document.getElementById('editName').value;
+   const newEmail = document.getElementById('editEmail').value;
+
+   if (newName && newEmail) {
+      // Update labels
+      document.getElementById('profileDisplayName').textContent = newName;
+      document.getElementById('sidebarName').textContent = newName;
+
+      // Update initials
+      const initial = newName.charAt(0).toUpperCase();
+      document.getElementById('profileAvatar').textContent = initial;
+      document.getElementById('sidebarInitial').textContent = initial;
+
+      showToast('Profile Updated Successfully', 'success');
+      navigateTo('dashboard');
+   }
 }
 
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }

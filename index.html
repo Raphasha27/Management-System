@@ -103,6 +103,10 @@
                     class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition">
                     <i class="fas fa-chart-pie w-5"></i><span>Analytics</span>
                 </a>
+                <a href="#" onclick="navigateTo('settings')" data-page="settings"
+                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition">
+                    <i class="fas fa-cog w-5"></i><span>Settings</span>
+                </a>
 
                 <div class="pt-8 text-xs uppercase text-slate-500 font-bold px-4 mb-2">Account</div>
                 <a href="#" onclick="handleLogout()"
@@ -110,6 +114,19 @@
                     <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
                 </a>
             </nav>
+
+            <div class="p-4 border-t border-white/10">
+                <div onclick="navigateTo('profile')"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-pink-500 flex items-center justify-center text-sm font-bold"
+                        id="sidebarInitial">RA</div>
+                    <div class="flex-1 overflow-hidden">
+                        <div class="font-medium text-sm truncate" id="sidebarName">Raphasha Admin</div>
+                        <div class="text-xs text-slate-500 truncate">Super Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-500 text-xs"></i>
+                </div>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -192,9 +209,82 @@
                 </div>
 
                 <!-- Employees View -->
-                <div id="employeesView" class="hidden space-y-6">
+                <div id="employeesView" class="hidden space-y-6 animate-fadeIn">
                     <h2 class="text-2xl font-bold">Team Directory</h2>
                     <div id="employeesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+
+                <!-- Profile View -->
+                <div id="profileView" class="hidden space-y-8 animate-fadeIn">
+                    <div class="glass p-8 rounded-3xl max-w-2xl mx-auto">
+                        <div class="flex flex-col items-center mb-8">
+                            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-primary-500 to-pink-500 flex items-center justify-center text-3xl font-bold text-white mb-4 shadow-xl"
+                                id="profileAvatar">RA</div>
+                            <h2 class="text-2xl font-bold text-slate-800 dark:text-white" id="profileDisplayName">
+                                Raphasha Admin</h2>
+                            <p class="text-slate-500">Super Admin</p>
+                        </div>
+                        <form onsubmit="updateProfile(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Full
+                                        Name</label>
+                                    <input type="text" id="editName" value="Raphasha Admin"
+                                        class="w-full bg-slate-100 dark:bg-dark-900 border-0 p-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-slate-800 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Job
+                                        Title</label>
+                                    <input type="text" value="Super Admin" readonly
+                                        class="w-full bg-slate-100 dark:bg-dark-900 border-0 p-3 rounded-xl opacity-50 cursor-not-allowed text-slate-800 dark:text-white">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Email
+                                    Address</label>
+                                <input type="email" id="editEmail" value="admin@nexussys.com"
+                                    class="w-full bg-slate-100 dark:bg-dark-900 border-0 p-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-slate-800 dark:text-white">
+                            </div>
+                            <button type="submit"
+                                class="w-full bg-primary-500 text-white font-bold py-3 rounded-xl hover:bg-primary-600 transition shadow-lg shadow-primary-500/20">Save
+                                Profile Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Settings View -->
+                <div id="settingsView" class="hidden space-y-8 animate-fadeIn">
+                    <div class="glass p-8 rounded-3xl max-w-2xl mx-auto space-y-6">
+                        <h2 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">Preferences</h2>
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-white/5">
+                                <div>
+                                    <div class="font-bold text-slate-800 dark:text-white">Dark Mode</div>
+                                    <div class="text-xs text-slate-500">Enable high-contrast night theme</div>
+                                </div>
+                                <button onclick="toggleDarkMode()"
+                                    class="w-12 h-6 bg-slate-200 dark:bg-primary-500 rounded-full relative transition-colors">
+                                    <div
+                                        class="absolute top-1 left-1 dark:left-7 w-4 h-4 bg-white rounded-full transition-all">
+                                    </div>
+                                </button>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-white/5">
+                                <div>
+                                    <div class="font-bold text-slate-800 dark:text-white">Email Notifications</div>
+                                    <div class="text-xs text-slate-500">Get alerts for project updates</div>
+                                </div>
+                                <button class="w-12 h-6 bg-primary-500 rounded-full relative">
+                                    <div class="absolute top-1 left-7 w-4 h-4 bg-white rounded-full transition-all">
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="showToast('Settings saved successfully', 'success')"
+                            class="w-full bg-primary-500 text-white font-bold py-3 rounded-xl">Apply Settings</button>
+                    </div>
                 </div>
 
                 <!-- Generic View -->

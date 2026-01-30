@@ -28,7 +28,20 @@ window.state = {
 
 // Initialize System
 document.addEventListener('DOMContentLoaded', () => {
-   console.log('NexusSys: Initializing System...');
+   console.log('NexusSys: System Booting...');
+
+   // Manual Event Binding for absolute reliability
+   const loginForm = document.querySelector('form');
+   if (loginForm) {
+      loginForm.addEventListener('submit', window.handleLogin);
+   }
+
+   const loginBtn = document.getElementById('loginBtn');
+   if (loginBtn) {
+      loginBtn.addEventListener('click', (e) => {
+         console.log('Login Button Clicked');
+      });
+   }
 
    // Sync Dark Mode
    if (window.state.darkMode) {
@@ -226,8 +239,8 @@ window.showToast = function (msg, type) {
 
    const toast = document.createElement('div');
    toast.className = `p-4 rounded-xl shadow-2xl flex items-center gap-3 animate-fadeIn glass text-sm font-bold border-l-4 pointer-events-auto transition hover:scale-105 ${type === 'success' ? 'border-green-500 text-green-700' :
-         type === 'warning' ? 'border-red-500 text-red-700' :
-            'border-primary-500 text-slate-800 dark:text-white'
+      type === 'warning' ? 'border-red-500 text-red-700' :
+         'border-primary-500 text-slate-800 dark:text-white'
       }`;
    toast.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
    container.appendChild(toast);

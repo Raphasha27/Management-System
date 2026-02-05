@@ -43,14 +43,14 @@ async function main() {
 
   // Create Services
   const servicesData = [
-    { name: 'Custom Web Development', category: 'Web Development', description: 'Full-stack web applications with modern frameworks', price: 5000.0 },
-    { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android native applications', price: 8000.0 },
-    { name: 'Cloud Migration', category: 'Cloud Services', description: 'Migrate your infrastructure to AWS/Azure/GCP', price: 3500.0 },
-    { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design for web and mobile', price: 2500.0 },
-    { name: 'API Development', category: 'Software Development', description: 'RESTful and GraphQL API solutions', price: 3000.0 },
-    { name: 'DevOps & CI/CD', category: 'Infrastructure', description: 'Automated deployment and infrastructure management', price: 4000.0 },
-    { name: 'Technical Consulting', category: 'Consulting', description: 'Expert advice on technology decisions', price: 1500.0 },
-    { name: 'Database Design', category: 'Software Development', description: 'Optimized database architecture and management', price: 2000.0 },
+    { name: 'Custom Web Development', category: 'Web Development', description: 'Full-stack web applications with modern frameworks', price: 45000.0 },
+    { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android native applications', price: 85000.0 },
+    { name: 'Cloud Migration', category: 'Cloud Services', description: 'Migrate your infrastructure to AWS/Azure/GCP', price: 35000.0 },
+    { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design for web and mobile', price: 25000.0 },
+    { name: 'API Development', category: 'Software Development', description: 'RESTful and GraphQL API solutions', price: 28000.0 },
+    { name: 'DevOps & CI/CD', category: 'Infrastructure', description: 'Automated deployment and infrastructure management', price: 40000.0 },
+    { name: 'Technical Consulting', category: 'Consulting', description: 'Expert advice on technology decisions', price: 15000.0 },
+    { name: 'Database Design', category: 'Software Development', description: 'Optimized database architecture and management', price: 22000.0 },
   ];
 
   const services = [];

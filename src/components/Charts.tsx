@@ -38,7 +38,7 @@ export function SalesChart({ data }: { data: SalesData[] }) {
           axisLine={false} 
           tickLine={false} 
           tick={{fill: '#64748B', fontSize: 12}} 
-          tickFormatter={(value) => `$${value/1000}k`}
+          tickFormatter={(value) => `R${value/1000}k`}
         />
         <Tooltip 
           cursor={{fill: 'transparent'}} 
@@ -48,7 +48,7 @@ export function SalesChart({ data }: { data: SalesData[] }) {
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             background: '#fff'
           }} 
-          formatter={(value: any) => [`$${value.toLocaleString()}`, 'Revenue']}
+          formatter={(value: any) => [`R ${value.toLocaleString()}`, 'Revenue']}
         />
         <Bar dataKey="sales" fill="#2563EB" radius={[8, 8, 0, 0]} barSize={40} />
       </BarChart>

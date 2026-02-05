@@ -30,10 +30,10 @@ async function ensureData() {
 
       // Create Services
       const servicesData = [
-        { name: 'Web Development', category: 'Web Development', description: 'Custom websites and web apps', price: 5000.0 },
-        { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android apps', price: 8000.0 },
-        { name: 'Cloud Services', category: 'Cloud Services', description: 'AWS/Azure migration', price: 3500.0 },
-        { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design', price: 2500.0 },
+        { name: 'Web Development', category: 'Web Development', description: 'Custom websites and web apps', price: 45000.0 },
+        { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android apps', price: 95000.0 },
+        { name: 'Cloud Services', category: 'Cloud Services', description: 'AWS/Azure migration', price: 35000.0 },
+        { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design', price: 25000.0 },
       ];
 
       for (const s of servicesData) {
@@ -79,7 +79,7 @@ async function getStats() {
   return [
     { 
       label: 'Total Revenue', 
-      value: `$${totalRevenue.toLocaleString()}`, 
+      value: `R ${totalRevenue.toLocaleString()}`, 
       growth: '+18.2%', 
       isPositive: true, 
       icon: DollarSign, 
@@ -187,7 +187,7 @@ export default async function Home() {
                     <span>{service.category}</span>
                   </div>
                   <div style={{ marginLeft: 'auto', fontWeight: 700, color: 'var(--primary)' }}>
-                    ${service.price.toLocaleString()}
+                    R {service.price.toLocaleString()}
                   </div>
                 </div>
               ))}
@@ -223,7 +223,7 @@ export default async function Home() {
                         {project.status}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 700 }}>${project.budget.toLocaleString()}</td>
+                    <td style={{ fontWeight: 700 }}>R {project.budget.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

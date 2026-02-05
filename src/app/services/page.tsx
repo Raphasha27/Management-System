@@ -1,10 +1,11 @@
 import Header from '@/components/Header';
+export const dynamic = 'force-dynamic';
 import styles from './services.module.css';
 import prisma from '@/lib/prisma';
 import { Server, Code, Shield, Globe, Cpu, Edit3, Plus, ArrowRight } from 'lucide-react';
 
 async function getServices() {
-  return await prisma.service.findMany({
+  return await (prisma as any).service.findMany({
     orderBy: { category: 'asc' }
   });
 }
@@ -38,7 +39,7 @@ export default async function ServicesPage() {
         </div>
 
         <div className={styles.grid}>
-          {services.map((service) => (
+          {services.map((service: any) => (
             <div key={service.id} className={styles.serviceCard}>
               <div className={styles.iconWrapper} style={{ background: '#2563eb15', color: '#2563eb' }}>
                 {getIcon(service.category)}
@@ -76,3 +77,4 @@ export default async function ServicesPage() {
     </div>
   );
 }
+

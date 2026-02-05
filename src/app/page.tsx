@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+export const dynamic = 'force-dynamic';
 import styles from './page.module.css';
 import { SalesChart, ServiceDistributionChart } from '@/components/Charts';
 import prisma from '@/lib/prisma';

@@ -1,10 +1,11 @@
 import Header from '@/components/Header';
+export const dynamic = 'force-dynamic';
 import styles from './clients.module.css';
 import prisma from '@/lib/prisma';
 import { Users, Mail, Phone, Building, ExternalLink, Plus } from 'lucide-react';
 
 async function getClients() {
-  return await prisma.client.findMany({
+  return await (prisma as any).client.findMany({
     orderBy: { createdAt: 'desc' },
     include: { _count: { select: { projects: true, tickets: true } } }
   });
@@ -30,7 +31,7 @@ export default async function ClientsPage() {
         </div>
 
         <div className={styles.grid}>
-          {clients.map((client) => (
+          {clients.map((client: any) => (
             <div key={client.id} className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.avatar}>

@@ -1,10 +1,11 @@
 import Header from '@/components/Header';
+export const dynamic = 'force-dynamic';
 import styles from './projects.module.css';
 import prisma from '@/lib/prisma';
 import { Code, Clock, CheckCircle, AlertCircle, Calendar, Plus, User } from 'lucide-react';
 
 async function getProjects() {
-  return await prisma.project.findMany({
+  return await (prisma as any).project.findMany({
     orderBy: { startDate: 'desc' },
     include: { client: true, services: { include: { service: true } } }
   });
@@ -39,7 +40,7 @@ export default async function ProjectsPage() {
         </div>
 
         <div className={styles.projectList}>
-          {projects.map((project) => (
+          {projects.map((project: any) => (
             <div key={project.id} className={styles.projectCard}>
               <div className={styles.projectMain}>
                 <div className={styles.projectTitle}>
@@ -76,7 +77,7 @@ export default async function ProjectsPage() {
                   <div>
                     <label>Services</label>
                     <div className={styles.tags}>
-                        {project.services.map(ps => (
+                        {project.services.map((ps: any) => (
                             <span key={ps.id} className={styles.tag}>{ps.service.name}</span>
                         ))}
                     </div>
@@ -108,3 +109,4 @@ export default async function ProjectsPage() {
     </div>
   );
 }
+

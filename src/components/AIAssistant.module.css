@@ -108,6 +108,33 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px 16px 20px;
+  background: #f8fafc;
+}
+
+.suggestionChip {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  color: #2563eb;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.suggestionChip:hover {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+}
+
 .messagesContainer {
   flex: 1;
   overflow-y: auto;

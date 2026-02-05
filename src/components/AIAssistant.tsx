@@ -10,13 +10,20 @@ interface Message {
   timestamp: Date;
 }
 
+const SUGGESTIONS = [
+  "How many projects?",
+  "Total revenue",
+  "How to add a client",
+  "Service pricing",
+];
+
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [stats, setStats] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hello! I\'m your Kivoc AI Assistant. I can help you with managing projects, clients, services, and answer questions about the system. How can I assist you today?',
+      content: 'Hello! I\'m your Kivoc AI Assistant. How can I help you today?',
       timestamp: new Date(),
     },
   ]);
@@ -51,7 +58,6 @@ export default function AIAssistant() {
           const transcript = event.results[0][0].transcript;
           setInputValue(transcript);
           setIsRecording(false);
-          // Auto-send if transcript is clear
           setTimeout(() => handleSend(transcript), 500);
         };
 
@@ -77,12 +83,10 @@ export default function AIAssistant() {
 
   const speak = (text: string) => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
-      // Cancel any ongoing speech
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 1.0;
-      utterance.pitch = 1.1; // Slightly higher pitch for "Siri" feel
-      // Try to find a nice female voice
+      utterance.pitch = 1.1;
       const voices = window.speechSynthesis.getVoices();
       const siriVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Female'));
       if (siriVoice) utterance.voice = siriVoice;
@@ -114,7 +118,6 @@ export default function AIAssistant() {
     setInputValue('');
     setIsLoading(true);
 
-    // Simulate AI response
     setTimeout(() => {
       const responseText = generateAIResponse(textToSend);
       const aiResponse: Message = {
@@ -128,15 +131,17 @@ export default function AIAssistant() {
     }, 1500);
   };
 
+  const handleSuggestion = (text: string) => {
+    handleSend(text);
+  };
+
   const generateAIResponse = (query: string): string => {
     const lowerQuery = query.toLowerCase();
 
-    // Siri-like greetings
     if (lowerQuery === 'hi' || lowerQuery === 'hello' || lowerQuery.includes('hey')) {
       return "Hello! I'm here to help you manage Kivoc Dynamic Technology. What's on your mind?";
     }
 
-    // Stats-aware responses (Polished for Siri-style)
     if (lowerQuery.includes('how many projects') || lowerQuery.includes('project count')) {
       if (stats) {
         return `You have ${stats.projectCount} active projects in the system right now.`;
@@ -158,7 +163,6 @@ export default function AIAssistant() {
       return 'I\'m fetching your client list now.';
     }
 
-    // System understanding responses
     if (lowerQuery.includes('project') || lowerQuery.includes('create project')) {
       return 'To start a new project, just head over to the Projects page and click "New Project". I\'ll track the milestones for you.';
     }
@@ -191,13 +195,11 @@ export default function AIAssistant() {
       return 'I can help you manage projects, add clients, check your revenue, or navigate the ticket system. Just ask!';
     }
 
-    // Default fallback
     return `I'm not quite sure about that, but I can help you with your Kivoc projects, clients, or revenue. Would you like to check your active projects?`;
   };
 
   return (
     <>
-      {/* Floating Action Button */}
       {!isOpen && (
         <button className={styles.fab} onClick={() => setIsOpen(true)}>
           <Sparkles size={24} />
@@ -205,7 +207,6 @@ export default function AIAssistant() {
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className={styles.chatWindow}>
           <div className={styles.chatHeader}>
@@ -263,6 +264,20 @@ export default function AIAssistant() {
             <div ref={messagesEndRef} />
           </div>
 
+          {!isLoading && messages.length <= 1 && (
+            <div className={styles.suggestions}>
+              {SUGGESTIONS.map((text, i) => (
+                <button 
+                  key={i} 
+                  className={styles.suggestionChip}
+                  onClick={() => handleSuggestion(text)}
+                >
+                  {text}
+                </button>
+              ))}
+            </div>
+          )}
+
           <div className={styles.inputContainer}>
             <button 
               className={`${styles.micBtn} ${isRecording ? styles.recording : ''}`}
@@ -289,4 +304,3 @@ export default function AIAssistant() {
     </>
   );
 }
-

@@ -13,7 +13,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const menu = [
-    { name: 'Dashboard', icon: LayoutGrid, active: true, href: '/' },
+    { name: 'Dashboard', icon: LayoutGrid, active: true, href: '/dashboard' },
     { name: 'Projects', icon: Code, active: false, href: '/projects' },
     { name: 'Services', icon: Server, active: false, href: '/services' },
     { name: 'Clients', icon: Users, active: false, href: '/clients' },
@@ -53,11 +53,12 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       </nav>
 
       <div className={styles.footer}>
-         <button className={styles.item} onClick={() => console.log('Logout clicked')}>
+         <Link href="/" className={styles.item}>
             <LogOut className={styles.icon} />
             <span>Logout</span>
-         </button>
+         </Link>
       </div>
     </aside>
   );
 }
+

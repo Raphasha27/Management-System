@@ -1,12 +1,13 @@
 # 🚀 Kivoc Dynamic Technology - IT Management System
 
-### 🌐 [View Live Demo](https://management-system-8kolob1g9-koketso-raphashas-projects.vercel.app/)
+### 🌐 [View Live Demo](https://management-system-six-blush.vercel.app/)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748?logo=prisma)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
 
 
 

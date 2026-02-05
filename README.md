@@ -8,14 +8,18 @@ A professional, enterprise-grade management dashboard designed for **Kivoc Dynam
 
 ![Dashboard Preview](./public/kivoc-preview.png)
 
+
 ## ✨ Features
 
 - 🎯 **Project Management** - Track active projects, budgets, and timelines
 - 👥 **Client Portal** - Manage client information and service history
 - 🛠️ **Service Catalog** - Showcase IT services (Web Dev, Mobile Apps, Cloud)
 - 📊 **Real-time Analytics** - Visual insights into revenue and project status
+- 💬 **Call Center Agent** - Support ticket system with live chat interface
+- 📋 **Ticket Management** - Track, respond to, and resolve customer queries
 - 📱 **Mobile Responsive** - Fully functional on all devices with adaptive layout
 - 🎨 **Corporate Identity** - Custom "Kivoc Blue" theme and professional branding
+- 💰 **South African Pricing** - All services priced in Rand (ZAR)
 
 ## 🚀 Tech Stack
 

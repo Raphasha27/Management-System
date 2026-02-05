@@ -14,6 +14,7 @@ model Client {
   phone     String?
   createdAt DateTime  @default(now())
   projects  Project[]
+  tickets   SupportTicket[]
 }
 
 model Service {
@@ -48,3 +49,25 @@ model ProjectService {
   customPrice Float?
 }
 
+model SupportTicket {
+  id          Int       @id @default(autoincrement())
+  subject     String
+  status      String    // Open, In Progress, Resolved, Closed
+  priority    String    // Low, Medium, High, Critical
+  category    String    // Technical, Billing, General, Feature Request
+  clientId    Int
+  client      Client    @relation(fields: [clientId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  notes       TicketNote[]
+}
+
+model TicketNote {
+  id        Int           @id @default(autoincrement())
+  content   String
+  type      String        // Note, Instruction, Response, System
+  ticketId  Int
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id])
+  createdAt DateTime      @default(now())
+  author    String        // Agent, Customer, System
+}

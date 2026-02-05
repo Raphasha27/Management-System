@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { LayoutGrid, Users, Code, Server, FileCode, Settings, LogOut, Menu, X } from 'lucide-react';
+import { LayoutGrid, Users, Code, Server, FileCode, Settings, LogOut, Menu, X, MessageSquare } from 'lucide-react';
 import styles from './Sidebar.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,6 +18,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     { name: 'Services', icon: Server, active: false, href: '/services' },
     { name: 'Clients', icon: Users, active: false, href: '/clients' },
     { name: 'Resources', icon: FileCode, active: false, href: '/resources' },
+    { name: 'Support', icon: MessageSquare, active: false, href: '/support' },
     { name: 'Settings', icon: Settings, active: false, href: '/settings' },
   ];
 

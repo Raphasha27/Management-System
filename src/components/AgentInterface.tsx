@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from '@/app/support/page.module.css';
-import { Send, User, Clock, AlertCircle } from 'lucide-react';
+import { Send, User, Clock, AlertCircle, ChevronLeft } from 'lucide-react';
 import { addNote } from '@/app/support/actions';
 
 interface Note {
@@ -42,7 +42,7 @@ export default function AgentInterface({ tickets }: { tickets: Ticket[] }) {
 
   async function handleSendMessage() {
     if (!selectedTicketId || !message.trim()) return;
-    
+
     setIsSending(true);
     try {
       await addNote(selectedTicketId, message);
@@ -65,14 +65,14 @@ export default function AgentInterface({ tickets }: { tickets: Ticket[] }) {
   return (
     <div className={styles.grid}>
       {/* Ticket List */}
-      <div className={styles.ticketList}>
+      <div className={`${styles.ticketList} ${selectedTicketId ? styles.hidden : ''}`}>
         <div className={styles.listHeader}>
           Active Tickets ({sortedTickets.length})
         </div>
         <div className={styles.scrollArea}>
           {sortedTickets.map(ticket => (
-            <div 
-              key={ticket.id} 
+            <div
+              key={ticket.id}
               className={`${styles.ticketItem} ${selectedTicketId === ticket.id ? styles.selected : ''}`}
               onClick={() => setSelectedTicketId(ticket.id)}
             >
@@ -95,66 +95,69 @@ export default function AgentInterface({ tickets }: { tickets: Ticket[] }) {
       </div>
 
       {/* Detail View */}
-      {selectedTicket ? (
-        <div className={styles.detailView}>
-          <div className={styles.detailHeader}>
-            <div className={styles.detailTitle}>{selectedTicket.subject}</div>
-            <div className={styles.tags}>
-              <span className={`${styles.tag} ${selectedTicket.priority.toLowerCase()}`}>
-                {selectedTicket.priority} Priority
-              </span>
-              <span className={styles.tag} style={{ background: '#E2E8F0', color: '#475569' }}>
-                {selectedTicket.status}
-              </span>
-              <span className={styles.tag} style={{ background: '#E2E8F0', color: '#475569' }}>
-                {selectedTicket.category}
-              </span>
-            </div>
-            <div style={{ marginTop: '12px', fontSize: '14px', color: '#64748B' }}>
-              Client: <b>{selectedTicket.client.name}</b> ({selectedTicket.client.company})
-            </div>
-          </div>
-
-          <div className={styles.messagesArea}>
-            {selectedTicket.notes.map(note => (
-              <div key={note.id} className={`${styles.message} ${note.author === 'Agent' ? styles.agent : note.author === 'System' ? styles.system : styles.client}`}>
-                <div>{note.content}</div>
-                <div className={styles.messageMeta}>
-                  {note.author} • {new Date(note.createdAt).toLocaleString()}
-                </div>
+      <div className={`${styles.detailView} ${!selectedTicketId ? styles.hidden : ''}`}>
+        {selectedTicket ? (
+          <>
+            <div className={styles.detailHeader}>
+              <button className={styles.backBtn} onClick={() => setSelectedTicketId(null)}>
+                <ChevronLeft size={18} /> Back to List
+              </button>
+              <div className={styles.detailTitle}>{selectedTicket.subject}</div>
+              <div className={styles.tags}>
+                <span className={`${styles.tag} ${selectedTicket.priority.toLowerCase()}`}>
+                  {selectedTicket.priority} Priority
+                </span>
+                <span className={styles.tag} style={{ background: '#E2E8F0', color: '#475569' }}>
+                  {selectedTicket.status}
+                </span>
+                <span className={styles.tag} style={{ background: '#E2E8F0', color: '#475569' }}>
+                  {selectedTicket.category}
+                </span>
               </div>
-            ))}
-          </div>
-
-          <div className={styles.inputArea}>
-            <textarea
-              className={styles.textarea}
-              placeholder="Type your response... (Enter to send)"
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              rows={2}
-              disabled={isSending}
-            />
-            <button 
-              className="btn btn-primary" 
-              onClick={handleSendMessage}
-              disabled={isSending || !message.trim()}
-              style={{ height: 'fit-content', alignSelf: 'flex-end' }}
-            >
-              <Send size={18} />
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className={styles.detailView}>
-            <div className={styles.emptyState}>
-                <User size={48} style={{ marginBottom: '16px', opacity: 0.2 }} />
-                <h3>Select a ticket to view details</h3>
-                <p>You can manage and respond to client queries from here.</p>
+              <div style={{ marginTop: '12px', fontSize: '14px', color: '#64748B' }}>
+                Client: <b>{selectedTicket.client.name}</b> ({selectedTicket.client.company})
+              </div>
             </div>
-        </div>
-      )}
+
+            <div className={styles.messagesArea}>
+              {selectedTicket.notes.map(note => (
+                <div key={note.id} className={`${styles.message} ${note.author === 'Agent' ? styles.agent : note.author === 'System' ? styles.system : styles.client}`}>
+                  <div>{note.content}</div>
+                  <div className={styles.messageMeta}>
+                    {note.author} • {new Date(note.createdAt).toLocaleString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.inputArea}>
+              <textarea
+                className={styles.textarea}
+                placeholder="Type your response..."
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                rows={2}
+                disabled={isSending}
+              />
+              <button
+                className="btn btn-primary"
+                onClick={handleSendMessage}
+                disabled={isSending || !message.trim()}
+                style={{ height: 'fit-content', alignSelf: 'flex-end' }}
+              >
+                <Send size={18} />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className={styles.emptyState}>
+            <User size={48} style={{ marginBottom: '16px', opacity: 0.2 }} />
+            <h3>Select a ticket</h3>
+            <p>Choose an active inquiry from the list.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

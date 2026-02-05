@@ -107,22 +107,24 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className={styles.chartCard}>
+          <div className={styles.chartCard} style={{ overflow: 'hidden' }}>
             <div className={styles.cardHeader}><div className={styles.cardTitle}>Recent Projects</div></div>
-            <table className={styles.table}>
-              <thead><tr><th>Project</th><th>Client</th><th>Start Date</th><th>Status</th><th>Budget</th></tr></thead>
-              <tbody>
-                {recentProjects.map((project: any) => (
-                  <tr key={project.id}>
-                    <td>{project.name}</td>
-                    <td>{project.client?.company || project.client?.name}</td>
-                    <td>{new Date(project.startDate).toLocaleDateString()}</td>
-                    <td><span className={`${styles.status} ${styles[project.status.toLowerCase().replace(' ', '')] || ''}`}>{project.status}</span></td>
-                    <td style={{ fontWeight: 700 }}>R {project.budget.toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableWrapper}>
+              <table className={styles.table}>
+                <thead><tr><th>Project</th><th>Client</th><th>Start Date</th><th>Status</th><th>Budget</th></tr></thead>
+                <tbody>
+                  {recentProjects.map((project: any) => (
+                    <tr key={project.id}>
+                      <td>{project.name}</td>
+                      <td>{project.client?.company || project.client?.name}</td>
+                      <td>{new Date(project.startDate).toLocaleDateString()}</td>
+                      <td><span className={`${styles.status} ${styles[project.status.toLowerCase().replace(' ', '')] || ''}`}>{project.status}</span></td>
+                      <td style={{ fontWeight: 700 }}>R {project.budget.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

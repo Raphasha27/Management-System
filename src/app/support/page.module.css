@@ -195,12 +195,72 @@
   border-color: var(--primary);
 }
 
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--text-secondary);
-  text-align: center;
+@media (max-width: 768px) {
+  .grid {
+    height: calc(100vh - 160px);
+    display: block; /* Stack instead of grid */
+    position: relative;
+  }
+
+  .ticketList {
+    height: 100%;
+    display: block;
+  }
+
+  .ticketList.hidden {
+    display: none;
+  }
+
+  .detailView {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .detailView.hidden {
+    display: none;
+  }
+
+  .detailHeader {
+    padding: 16px;
+  }
+
+  .detailTitle {
+    font-size: 16px;
+  }
+
+  .messagesArea {
+    padding: 16px;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+
+  .inputArea {
+    padding: 12px;
+  }
 }
+
+.backBtn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 12px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .backBtn {
+    display: flex;
+  }
+}
+

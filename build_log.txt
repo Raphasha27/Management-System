@@ -1,5 +1,5 @@
 
-> shop-master@0.1.0 build
+> kivoc-system@0.1.0 build
 > next build
 
 ÔÜá Warning: Next.js inferred your workspace root, but it may not be correct.
@@ -9,27 +9,12 @@
  Detected additional lockfiles: 
    * C:\Users\rapha\OneDrive\Desktop\ManagementSYSTEM\shop-master\package-lock.json
 
-Ôû▓ Next.js 16.1.6 (Turbopack)
-- Environments: .env
 
-  Creating an optimized production build ...
-Ô£ô Compiled successfully in 5.9s
-  Running TypeScript ...
-Failed to compile.
-
-./src/app/page.tsx:216:37
-Type error: Argument of type '(project: { id: number; name: string; client: { company?: string; name: string; } | null; startDate: Date; status: string; budget: number; }) => JSX.Element' is not assignable to parameter of type '(value: { client: { id: number; email: string; name: string; company: string | null; phone: string | null; createdAt: Date; }; } & { id: number; name: string; status: string; clientId: number; startDate: Date; endDate: Date | null; budget: number; }, index: number, array: ({ ...; } & { ...; })[]) => Element'.
-  Types of parameters 'project' and 'value' are incompatible.
-    Type '{ client: { id: number; email: string; name: string; company: string | null; phone: string | null; createdAt: Date; }; } & { id: number; name: string; status: string; clientId: number; startDate: Date; endDate: Date | null; budget: number; }' is not assignable to type '{ id: number; name: string; client: { company?: string | undefined; name: string; } | null; startDate: Date; status: string; budget: number; }'.
-      The types of 'client.company' are incompatible between these types.
-        Type 'string | null' is not assignable to type 'string | undefined'.
-          Type 'null' is not assignable to type 'string | undefined'.
-
-  214 |               </thead>
-  215 |               <tbody>
-> 216 |                 {recentProjects.map((project: { id: number; name: string; client: { company?: string; name: string } | null; startDate: Date; status: string; budget: number }) => (
-      |                                     ^
-  217 |                   <tr key={project.id}>
-  218 |                     <td>{project.name}</td>
-  219 |                     <td>{project.client?.company || project.client?.name}</td>
-Next.js build worker exited with code: 1 and signal: null
+> Build error occurred
+Error: EPERM: operation not permitted, unlink 'C:\Users\rapha\OneDrive\Desktop\ManagementSYSTEM\shop-master\.next\static\c_M7Cd9VVO4dwP0koEYSk'
+    at ignore-listed frames {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'unlink',
+  path: 'C:\\Users\\rapha\\OneDrive\\Desktop\\ManagementSYSTEM\\shop-master\\.next\\static\\c_M7Cd9VVO4dwP0koEYSk'
+}

@@ -163,10 +163,48 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    padding: 16px;
+  }
+  
+  .logo span {
+    display: none;
+  }
+
   .hero {
     margin-top: 40px;
+    padding: 0 20px;
   }
+
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .heroContent p {
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+  }
+
+  .primaryBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+  }
+
   .features {
-    grid-template-columns: 1fr;
+    margin-top: 60px;
+    padding-bottom: 60px;
+    gap: 20px;
+  }
+
+  .featureCard {
+    padding: 24px;
+  }
+
+  .featIcon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
   }
 }
+

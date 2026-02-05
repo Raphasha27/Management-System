@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Metadata } from 'next';
+import { usePathname } from 'next/navigation';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
@@ -16,6 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Paths that should NOT have the sidebar/dashboard layout
+  const isAuthPage = pathname === '/' || pathname === '/login';
 
   return (
     <html lang="en">
@@ -25,8 +29,8 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {/* Mobile Overlay */}
-        {sidebarOpen && (
-          <div 
+        {!isAuthPage && sidebarOpen && (
+          <div
             style={{
               position: 'fixed',
               top: 0,
@@ -40,57 +44,59 @@ export default function RootLayout({
           />
         )}
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          style={{
-            position: 'fixed',
-            top: '20px',
-            left: '20px',
-            zIndex: 1001,
-            background: 'var(--primary)',
-            border: 'none',
-            borderRadius: '10px',
-            padding: '12px',
-            cursor: 'pointer',
-            display: 'none',
-            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
-          }}
-          className="mobile-menu-btn"
-        >
-          <Menu size={24} color="white" />
-        </button>
+        {/* Mobile Menu Button - Hide on Auth pages */}
+        {!isAuthPage && (
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            style={{
+              position: 'fixed',
+              top: '20px',
+              left: '20px',
+              zIndex: 1001,
+              background: 'var(--primary)',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '12px',
+              cursor: 'pointer',
+              display: 'none',
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+            }}
+            className="mobile-menu-btn"
+          >
+            <Menu size={24} color="white" />
+          </button>
+        )}
 
         <div className="flex">
-          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-          <main style={{ 
-            flex: 1, 
-            marginLeft: 'var(--sidebar-width)',
+          {!isAuthPage && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
+          <main style={{
+            flex: 1,
+            marginLeft: isAuthPage ? '0' : 'var(--sidebar-width)',
             minHeight: '100vh',
-            padding: '40px',
+            padding: isAuthPage ? '0' : '40px',
             backgroundColor: 'var(--bg-color)',
-            transition: 'margin-left 0.3s ease',
+            transition: 'all 0.3s ease',
+            width: '100%',
+            overflowX: 'hidden'
           }}
-          className="main-content"
+            className="main-content"
           >
             {children}
           </main>
         </div>
 
-        {/* AI Assistant */}
+        {/* AI Assistant - Show everywhere except maybe just specific pages if desired */}
         <AIAssistant />
 
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Hide Next.js development indicator
               (function() {
                 const hideIndicator = () => {
                   const indicator = document.querySelector('nextjs-portal');
                   if (indicator) {
                     indicator.style.display = 'none';
                   }
-                  // Also target the shadow DOM
                   const allElements = document.querySelectorAll('*');
                   allElements.forEach(el => {
                     if (el.shadowRoot) {
@@ -100,16 +106,12 @@ export default function RootLayout({
                     }
                   });
                 };
-                
-                // Run immediately and on DOM ready
                 hideIndicator();
                 if (document.readyState === 'loading') {
                   document.addEventListener('DOMContentLoaded', hideIndicator);
                 } else {
                   hideIndicator();
                 }
-                
-                // Keep checking for new indicators
                 setInterval(hideIndicator, 500);
               })();
             `,
@@ -120,7 +122,7 @@ export default function RootLayout({
           @media (max-width: 768px) {
             .main-content {
               margin-left: 0 !important;
-              padding: 80px 20px 20px 20px !important;
+              padding: ${isAuthPage ? '0' : '80px 16px 24px 16px'} !important;
             }
             :global(.mobile-menu-btn) {
               display: block !important;
@@ -131,3 +133,4 @@ export default function RootLayout({
     </html>
   );
 }
+

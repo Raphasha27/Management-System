@@ -1,110 +1,85 @@
-# 🚀 Kivoc Dynamic Technology - IT Management System
+# 🚀 Kivoc Dynamic Technology - IT Management System (Kivoc System)
 
-### 🌐 [View Live Demo](https://management-system-six-blush.vercel.app/)
+### 🌐 [View Official Deployment](https://management-system-six-blush.vercel.app/)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748?logo=prisma)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Security](https://img.shields.io/badge/Security-Hardened-success?logo=googlecloudstorage)
 
 ---
 
-## 📝 Project Overview
-**Kivoc Dynamic Technology** is a premium, all-in-one management platform designed for IT service providers and call centers. This system streamlines business operations by integrating project tracking, client management, and real-time support ticketing into a unified, AI-powered interface.
+## 📝 Project Vision & Specifications
+**Kivoc System**, developed by **Kivoc Dynamic Technology**, is a state-of-the-art management suite designed specialized for IT call centers and service providers. This platform aggregates project tracking, CRM, and real-time support into a premium, AI-driven experience.
+
+### 🏗️ Technical Specifications
+- **Framework**: Next.js 16 (App Router) with React 19.
+- **Intelligence**: Integrated Web Speech API for bidirectional voice interaction.
+- **Database**: Prisma ORM with localized SQLite (Extensible to PostgreSQL/MySQL).
+- **Security Architecture**: Secure middleware guards, HttpOnly session management, and hardened HTTP headers.
+- **Design System**: Mobile-first, responsive CSS Modules with a high-end corporate aesthetic.
 
 ---
 
-## 🔐 Mock Access (Live Demo)
-To explore the system as an administrator, please use the following credentials on the login page:
+## 🔐 Security & Privacy (Priority #1)
+We implement enterprise-grade security to ensure your business data remains confidential.
+- **Middleware Guarding**: unauthorized access to business modules is blocked at the edge.
+- **Secure Sessions**: Authentication is handled via secure, HttpOnly, and SameSite-protected cookies.
+- **Privacy Center**: A built-in [Privacy & Security Center](/privacy) provides transparency to all employees and administrators.
 
-- **Email:** `admin@kivoc.co.za`
-- **Password:** `password123`
-
----
-
-## ✨ Features & Instructions
-
-### 1. **Get Started & Authentication**
-- **Landing Page**: Start at the professional landing page featuring our corporate identity.
-- **Secure Login**: Access the dashboard through the secure gateway using the mock credentials provided above.
-
-### 2. **AI Business Companion (🎙️ VOICE ENABLED)**
-- **Hands-Free**: Click the **Microphone** button to speak your commands.
-- **Siri-Style Energy**: Hear real-time voice feedback on business stats and system help.
-- **Instant Insights**: Use "Mock Suggestions" to quickly ask about revenue, project counts, or client numbers without typing.
-
-### 3. **IT Dashboard & Analytics**
-- **Live Stats**: Automated monitoring of revenue (in ZAR), active projects, and client growth.
-- **Visual Reports**: Interactive charts showing monthly trends and service distribution.
-- **Mobile Optimized**: Full-width tables with horizontal scrolling for clear data viewing on any device.
-
-### 4. **Project & Client Management**
-- **Lifecycle Tracking**: Monitor projects from "Pending" to "Completed" with live progress bars.
-- **Client Directory**: Manage contact details and link tickets/projects to specific business accounts.
-
-### 5. **Call Center Agent Interface**
-- **Real-time Support**: Handle incoming support tickets through a dedicated chat-like interface.
-- **Priority Management**: Color-coded tickets (Critical, High, Medium, Low) for efficient prioritization.
-- **Seamless Flow**: Toggle between ticket lists and active conversations on mobile.
+Review our full policies:
+- [🛡️ Security Policy](SECURITY.md)
+- [🔒 Privacy Policy](PRIVACY_POLICY.md)
 
 ---
 
-## 🛠️ Step-by-Step Installation
+## 📖 Instructions for Use
 
-### **Local Setup**
-1. **Clone the repository**
+### 1. **Accessing the System**
+Navigate to the [Landing Page](https://management-system-six-blush.vercel.app/). Click **Get Started** to view the secure login gateway.
+- **Mock Admin Access**: 
+  - **Email**: `admin@kivoc.co.za`
+  - **Password**: `password123`
+
+### 2. **Voice Interaction**
+Click the **Microphone** icon in the sidebar to activate the AI voice assistant. You can speak commands like "What is our current revenue?" or "How many active projects do we have?".
+
+### 3. **Support Ticketing**
+Call center agents can manage incoming requests in the **Support** tab. The interface is optimized for rapid response and prioritizes critical issues automatically.
+
+---
+
+## 🛠️ Instructions to Follow (Installation)
+
+### **Prerequisites**
+- Node.js 18.x or higher
+- Git
+
+### **Setup**
+1. **Clone & Install**
    ```bash
    git clone https://github.com/Raphasha27/Management-System.git
-   cd Kivoc_System
-   ```
-
-2. **Install Dependencies**
-   ```bash
+   cd Management-System
    npm install
    ```
-
-3. **Database Configuration**
-   - The system uses Prisma with SQLite for zero-config local setup.
+2. **Database Initialization**
    ```bash
    npx prisma generate
    npx prisma db push
    npx prisma db seed
    ```
-
-4. **Launch Dev Server**
+3. **Execution**
    ```bash
    npm run dev
    ```
-   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📂 Project Navigation Hierarchy
-
-```
-Kivoc_System/
-├── src/
-│   ├── app/
-│   │   ├── page.tsx            # Get Started Page
-│   │   ├── login/              # Secure Gateway
-│   │   ├── dashboard/          # Analytics & Overview
-│   │   ├── projects/           # Operations Tracking
-│   │   ├── clients/            # Client Relations
-│   │   ├── services/           # Service Catalog (ZAR Pricing)
-│   │   └── support/            # Call Center (Tickets)
-├── components/
-│   ├── Sidebar.tsx             # Responsive Navigation
-│   └── AIAssistant.tsx         # Voice AI Core
-```
+## 📄 Documentation Links
+- [📊 Full Project Summary](TECHNICAL_SPECS.md)
+- [🏁 Final Deployment Walkthrough](https://github.com/Raphasha27/Management-System/blob/final-production-secured/C:/Users/rapha/.gemini/antigravity/brain/1ce0667d-af5f-4be6-adce-1458832f482f/walkthrough.md) (Note: Local link updated in repo branch)
 
 ---
 
-## 📄 Policies & Protection
-- [**Security Policy**](SECURITY.md) - Deep dive into our protection architecture.
-- [**Privacy Policy**](PRIVACY_POLICY.md) - Data handling and usage standards.
-- [**License**](LICENSE) - MIT License details.
-
----
-
-**Built with ❤️ by Kivoc Dynamic Technology Team**
+**© 2026 Kivoc Dynamic Technology Team. All Rights Reserved.**

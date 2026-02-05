@@ -6,6 +6,8 @@ A modern, full-stack e-commerce management dashboard built with **Next.js 16**, 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-7.3-2D3748?style=for-the-badge&logo=prisma)
 
+![Dashboard Preview](./public/dashboard-preview.png)
+
 ## ✨ Features
 
 - 📊 **Real-time Dashboard** - Track revenue, orders, and customer metrics at a glance

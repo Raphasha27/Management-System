@@ -135,3 +135,57 @@
   padding-top: 24px;
   border-top: 1px solid #f1f5f9;
 }
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .settingsSidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .navItem {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 16px;
+  }
+
+  .navItem span {
+    display: none;
+  }
+
+  .settingsContent {
+    padding: 24px 16px;
+    background: white;
+    border-radius: 12px;
+    margin-top: 16px;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .container {
+    padding: 0;
+  }
+}

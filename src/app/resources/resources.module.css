@@ -83,7 +83,11 @@
   color: #cbd5e1;
 }
 
-.filesSection {}
+.filesSection {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #f1f5f9;
+}
 
 .sectionHeader {
   display: flex;
@@ -173,4 +177,47 @@
   background: #2563eb;
   color: white;
   border-color: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .categories {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .categoryCard {
+    padding: 16px;
+  }
+
+  .catInfo h3 {
+    font-size: 0.875rem;
+  }
+
+  .fileItem {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .fileDate {
+    display: none;
+  }
+
+  .fileActions {
+    margin-left: auto;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .sectionHeader button {
+    width: 100%;
+  }
+
+  .container {
+    padding: 16px;
+  }
 }

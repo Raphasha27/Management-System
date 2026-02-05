@@ -8,43 +8,64 @@ interface SalesData {
 }
 
 export function SalesChart({ data }: { data: SalesData[] }) {
-  // Mock data if empty
   const chartData = data.length > 0 ? data : [
-    { name: 'Jan', sales: 4000 },
-    { name: 'Feb', sales: 3000 },
-    { name: 'Mar', sales: 2000 },
-    { name: 'Apr', sales: 2780 },
-    { name: 'May', sales: 1890 },
-    { name: 'Jun', sales: 2390 },
-    { name: 'Jul', sales: 3490 },
-    { name: 'Aug', sales: 4200 },
-    { name: 'Sep', sales: 5100 },
-    { name: 'Oct', sales: 6000 },
-    { name: 'Nov', sales: 5400 },
-    { name: 'Dec', sales: 7200 },
+    { name: 'Jan', sales: 12000 },
+    { name: 'Feb', sales: 15000 },
+    { name: 'Mar', sales: 18000 },
+    { name: 'Apr', sales: 14000 },
+    { name: 'May', sales: 22000 },
+    { name: 'Jun', sales: 25000 },
+    { name: 'Jul', sales: 28000 },
+    { name: 'Aug', sales: 32000 },
+    { name: 'Sep', sales: 30000 },
+    { name: 'Oct', sales: 35000 },
+    { name: 'Nov', sales: 38000 },
+    { name: 'Dec', sales: 42000 },
   ];
 
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E4E4E4" />
-        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#808191', fontSize: 12}} dy={10} />
-        <YAxis axisLine={false} tickLine={false} tick={{fill: '#808191', fontSize: 12}} />
-        <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-        <Bar dataKey="sales" fill="#6C5DD3" radius={[4, 4, 0, 0]} barSize={30} />
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+        <XAxis 
+          dataKey="name" 
+          axisLine={false} 
+          tickLine={false} 
+          tick={{fill: '#64748B', fontSize: 12}} 
+          dy={10} 
+        />
+        <YAxis 
+          axisLine={false} 
+          tickLine={false} 
+          tick={{fill: '#64748B', fontSize: 12}} 
+          tickFormatter={(value) => `$${value/1000}k`}
+        />
+        <Tooltip 
+          cursor={{fill: 'transparent'}} 
+          contentStyle={{
+            borderRadius: '8px', 
+            border: 'none', 
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            background: '#fff'
+          }} 
+          formatter={(value: any) => [`$${value.toLocaleString()}`, 'Revenue']}
+        />
+        <Bar dataKey="sales" fill="#2563EB" radius={[8, 8, 0, 0]} barSize={40} />
       </BarChart>
     </ResponsiveContainer>
   );
 }
 
-export function OrderStatusChart() {
+export function ServiceDistributionChart() {
   const data = [
-    { name: 'Completed', value: 400 },
-    { name: 'Pending', value: 300 },
-    { name: 'Cancelled', value: 100 },
+    { name: 'Web Dev', value: 35 },
+    { name: 'Mobile Apps', value: 25 },
+    { name: 'Cloud Services', value: 20 },
+    { name: 'Consulting', value: 12 },
+    { name: 'Design', value: 8 },
   ];
   
-  const COLORS = ['#6C5DD3', '#FFCE73', '#FF754C'];
+  const COLORS = ['#2563EB', '#3B82F6', '#60A5FA', '#93C5FD', '#DBEAFE'];
 
   return (
     <ResponsiveContainer width="100%" height={250}>
@@ -52,16 +73,21 @@ export function OrderStatusChart() {
         <Pie
           data={data}
           innerRadius={60}
-          outerRadius={80}
-          paddingAngle={5}
+          outerRadius={90}
+          paddingAngle={3}
           dataKey="value"
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Legend verticalAlign="bottom" height={36} iconType="circle" />
-        <Tooltip />
+        <Legend 
+          verticalAlign="bottom" 
+          height={36} 
+          iconType="circle"
+          formatter={(value, entry: any) => `${value} (${entry.payload.value}%)`}
+        />
+        <Tooltip formatter={(value: any) => `${value}%`} />
       </PieChart>
     </ResponsiveContainer>
   );

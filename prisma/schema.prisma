@@ -6,41 +6,45 @@ datasource db {
   provider = "sqlite"
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  role      String   @default("customer")
-  createdAt DateTime @default(now())
-  orders    Order[]
+model Client {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  company   String?
+  phone     String?
+  createdAt DateTime  @default(now())
+  projects  Project[]
 }
 
-model Product {
-  id          Int         @id @default(autoincrement())
+model Service {
+  id          Int      @id @default(autoincrement())
   name        String
-  price       Float
-  stock       Int
-  category    String
-  createdAt   DateTime    @default(now())
-  image       String?
-  orderItems  OrderItem[]
+  category    String   // Web Development, Software Development, Cloud Services, etc.
+  description String?
+  price       Float    // Base price
+  createdAt   DateTime @default(now())
+  projects    ProjectService[]
 }
 
-model Order {
-  id        Int         @id @default(autoincrement())
-  createdAt DateTime    @default(now())
-  status    String      // Pending, Shipped, Delivered
-  total     Float
-  userId    Int
-  user      User        @relation(fields: [userId], references: [id])
-  items     OrderItem[]
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  status      String    // Active, Completed, Pending, On Hold
+  startDate   DateTime  @default(now())
+  endDate     DateTime?
+  budget      Float
+  clientId    Int
+  client      Client    @relation(fields: [clientId], references: [id])
+  services    ProjectService[]
 }
 
-model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
-  productId Int
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
+model ProjectService {
+  id         Int     @id @default(autoincrement())
+  projectId  Int
+  project    Project @relation(fields: [projectId], references: [id])
+  serviceId  Int
+  service    Service @relation(fields: [serviceId], references: [id])
+  quantity   Int     @default(1)
+  customPrice Float?
 }
+

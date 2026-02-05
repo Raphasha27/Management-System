@@ -1,47 +1,69 @@
 import Header from '@/components/Header';
 import styles from './page.module.css';
-import { SalesChart, OrderStatusChart } from '@/components/Charts';
+import { SalesChart, ServiceDistributionChart } from '@/components/Charts';
 import prisma from '@/lib/prisma';
-import { ShoppingCart, Users, DollarSign, TrendingUp, Package } from 'lucide-react';
+import { DollarSign, Users, Code, TrendingUp, CheckCircle } from 'lucide-react';
 
-// Lazy seed function
+// Auto-seed function
 async function ensureData() {
-  const userCount = await prisma.user.count();
-  if (userCount === 0) {
+  const clientCount = await prisma.client.count();
+  if (clientCount === 0) {
     try {
-      const user = await prisma.user.create({
+      // Create Clients
+      const client1 = await prisma.client.create({
         data: {
-          email: 'admin@shopmaster.com',
-          name: 'Admin User',
-          role: 'admin',
-        }
+          name: 'John Smith',
+          email: 'john@techcorp.com',
+          company: 'TechCorp Solutions',
+          phone: '+1-555-0101',
+        },
       });
-      
-      const productsData = [
-        { name: 'Wireless Headphones', price: 120.0, stock: 50, category: 'Electronics', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80' },
-        { name: 'Smart Watch', price: 199.99, stock: 30, category: 'Electronics', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80' },
-        { name: 'Ergonomic Chair', price: 250.0, stock: 15, category: 'Furniture', image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=500&q=80' },
-        { name: 'Running Shoes', price: 89.99, stock: 100, category: 'Apparel', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80' },
+
+      const client2 = await prisma.client.create({
+        data: {
+          name: 'Sarah Johnson',
+          email: 'sarah@innovate.com',
+          company: 'Innovate Digital',
+          phone: '+1-555-0102',
+        },
+      });
+
+      // Create Services
+      const servicesData = [
+        { name: 'Web Development', category: 'Web Development', description: 'Custom websites and web apps', price: 5000.0 },
+        { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android apps', price: 8000.0 },
+        { name: 'Cloud Services', category: 'Cloud Services', description: 'AWS/Azure migration', price: 3500.0 },
+        { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design', price: 2500.0 },
       ];
 
-      for (const p of productsData) {
-        await prisma.product.create({ data: p });
+      for (const s of servicesData) {
+        await prisma.service.create({ data: s });
       }
 
-      const products = await prisma.product.findMany();
-      
-       // Create some orders
-      for (let i = 0; i < 5; i++) {
-        const product = products[i % products.length];
-        await prisma.order.create({
+      const services = await prisma.service.findMany();
+
+      // Create Projects
+      const statuses = ['Active', 'Completed', 'Pending', 'On Hold'];
+      for (let i = 0; i < 6; i++) {
+        const service = services[i % services.length];
+        await prisma.project.create({
           data: {
-            userId: user.id,
-            status: ['Processing', 'Completed', 'Pending'][i % 3],
-            total: product.price,
-            items: { create: { productId: product.id, quantity: 1 } }
-          }
+            name: `Project ${String.fromCharCode(65 + i)}`,
+            status: statuses[i % statuses.length],
+            budget: service.price,
+            clientId: i % 2 === 0 ? client1.id : client2.id,
+            startDate: new Date(new Date().setDate(new Date().getDate() - i * 10)),
+            services: {
+              create: {
+                serviceId: service.id,
+                quantity: 1,
+              },
+            },
+          },
         });
       }
+
+      console.log('Auto-seeding completed');
     } catch (e) {
       console.error("Auto-seeding failed:", e);
     }
@@ -49,27 +71,51 @@ async function ensureData() {
 }
 
 async function getStats() {
-  const stats = [
-    { label: 'Total Revenue', value: '$128,450', growth: '+12.5%', isPositive: true, icon: DollarSign, color: '#6C5DD3' },
-    { label: 'Total Orders', value: '2,340', growth: '+8.2%', isPositive: true, icon: ShoppingCart, color: '#FFCE73' },
-    { label: 'Total Customers', value: '1,120', growth: '-5.7%', isPositive: false, icon: Users, color: '#FF754C' },
+  const projects = await prisma.project.findMany({ include: { services: true } });
+  const totalRevenue = projects.reduce((sum: number, p: { budget: number }) => sum + p.budget, 0);
+  const activeProjects = projects.filter((p: { status: string }) => p.status === 'Active').length;
+  const clientCount = await prisma.client.count();
+
+  return [
+    { 
+      label: 'Total Revenue', 
+      value: `$${totalRevenue.toLocaleString()}`, 
+      growth: '+18.2%', 
+      isPositive: true, 
+      icon: DollarSign, 
+      color: '#2563EB' 
+    },
+    { 
+      label: 'Active Projects', 
+      value: activeProjects.toString(), 
+      growth: '+12.5%', 
+      isPositive: true, 
+      icon: Code, 
+      color: '#10B981' 
+    },
+    { 
+      label: 'Total Clients', 
+      value: clientCount.toString(), 
+      growth: '+8.3%', 
+      isPositive: true, 
+      icon: Users, 
+      color: '#F59E0B' 
+    },
   ];
-  return stats; 
-  // In a real app, we would aggregate these from prisma.order.aggregate(...)
 }
 
-async function getRecentOrders() {
-  return await prisma.order.findMany({
+async function getRecentProjects() {
+  return await prisma.project.findMany({
     take: 5,
-    orderBy: { createdAt: 'desc' },
-    include: { user: true, items: true }
+    orderBy: { startDate: 'desc' },
+    include: { client: true }
   });
 }
 
-async function getTopProducts() {
-  return await prisma.product.findMany({
+async function getTopServices() {
+  return await prisma.service.findMany({
     take: 4,
-    orderBy: { price: 'desc' } // Mocking "top selling" by price for now
+    orderBy: { price: 'desc' }
   });
 }
 
@@ -77,12 +123,12 @@ export default async function Home() {
   await ensureData();
   
   const stats = await getStats();
-  const recentOrders = await getRecentOrders();
-  const topProducts = await getTopProducts();
+  const recentProjects = await getRecentProjects();
+  const topServices = await getTopServices();
 
   return (
     <div>
-      <Header title="Overview" />
+      <Header title="Dashboard Overview" />
       
       <div className={styles.dashboard}>
         {/* Stats Grid */}
@@ -108,66 +154,76 @@ export default async function Home() {
         <div className={styles.chartsGrid}>
           <div className={styles.chartCard}>
             <div className={styles.cardHeader}>
-              <div className={styles.cardTitle}>Sales Overview</div>
+              <div className={styles.cardTitle}>Monthly Revenue</div>
+              <button className="btn btn-outline" style={{ fontSize: '12px', padding: '6px 12px' }}>
+                View Report
+              </button>
             </div>
             <SalesChart data={[]} /> 
           </div>
           <div className={styles.chartCard}>
             <div className={styles.cardHeader}>
-              <div className={styles.cardTitle}>Order Status</div>
+              <div className={styles.cardTitle}>Services Distribution</div>
             </div>
-            <OrderStatusChart />
+            <ServiceDistributionChart />
           </div>
         </div>
 
         {/* Bottom Section */}
         <div className={styles.bottomGrid}>
-          {/* Top Selling Products */}
+          {/* Top Services */}
           <div className={styles.chartCard}>
              <div className={styles.cardHeader}>
-              <div className={styles.cardTitle}>Top Selling Products</div>
+              <div className={styles.cardTitle}>Popular Services</div>
             </div>
             <div className={styles.productList}>
-              {topProducts.map(product => (
-                <div key={product.id} className={styles.productItem}>
-                  <img src={product.image || 'https://via.placeholder.com/50'} alt={product.name} className={styles.productImage} />
-                  <div className={styles.productInfo}>
-                    <h4>{product.name}</h4>
-                    <span>{product.category}</span>
+              {topServices.map((service: { id: number; name: string; category: string; price: number }) => (
+                <div key={service.id} className={styles.productItem}>
+                  <div className={styles.serviceIcon} style={{ background: '#2563EB15', color: '#2563EB' }}>
+                    <Code size={20} />
                   </div>
-                  <div style={{ marginLeft: 'auto', fontWeight: 'bold' }}>${product.price}</div>
+                  <div className={styles.productInfo}>
+                    <h4>{service.name}</h4>
+                    <span>{service.category}</span>
+                  </div>
+                  <div style={{ marginLeft: 'auto', fontWeight: 700, color: 'var(--primary)' }}>
+                    ${service.price.toLocaleString()}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Recent Orders */}
+          {/* Recent Projects */}
           <div className={styles.chartCard}>
              <div className={styles.cardHeader}>
-              <div className={styles.cardTitle}>Recent Orders</div>
+              <div className={styles.cardTitle}>Recent Projects</div>
+              <button className="btn btn-primary" style={{ fontSize: '12px', padding: '6px 12px' }}>
+                New Project
+              </button>
             </div>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Date</th>
+                  <th>Project</th>
+                  <th>Client</th>
+                  <th>Start Date</th>
                   <th>Status</th>
-                  <th>Amount</th>
+                  <th>Budget</th>
                 </tr>
               </thead>
               <tbody>
-                {recentOrders.map(order => (
-                  <tr key={order.id}>
-                    <td>#ORD-{order.id.toString().padStart(4, '0')}</td>
-                    <td>{order.user?.name || 'Guest'}</td>
-                    <td>{order.createdAt.toLocaleDateString()}</td>
+                {recentProjects.map((project: { id: number; name: string; client: { company?: string; name: string } | null; startDate: Date; status: string; budget: number }) => (
+                  <tr key={project.id}>
+                    <td>{project.name}</td>
+                    <td>{project.client?.company || project.client?.name}</td>
+                    <td>{project.startDate.toLocaleDateString()}</td>
                     <td>
-                      <span className={`${styles.status} ${styles[order.status.toLowerCase()] || ''}`}>
-                        {order.status}
+                      <span className={`${styles.status} ${styles[project.status.toLowerCase().replace(' ', '')] || ''}`}>
+                        {project.status}
                       </span>
                     </td>
-                    <td>${order.total}</td>
+                    <td style={{ fontWeight: 700 }}>${project.budget.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

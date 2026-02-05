@@ -1,30 +1,50 @@
 'use client';
 
-import { LayoutGrid, ShoppingBag, Users, Folder, CreditCard, Settings, LogOut, MessageSquare, BarChart2 } from 'lucide-react';
+import { useState } from 'react';
+import { LayoutGrid, Users, Code, Server, FileCode, Settings, LogOut, Menu, X } from 'lucide-react';
 import styles from './Sidebar.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const menu = [
-    { name: 'Overview', icon: LayoutGrid, active: true, href: '/' },
-    { name: 'Orders', icon: ShoppingBag, active: false, href: '#' },
-    { name: 'Products', icon: Folder, active: false, href: '#' },
-    { name: 'Customers', icon: Users, active: false, href: '#' },
-    { name: 'Analytics', icon: BarChart2, active: false, href: '#' },
-    { name: 'Payments', icon: CreditCard, active: false, href: '#' },
-    { name: 'Settings', icon: Settings, active: false, href: '#' },
+    { name: 'Dashboard', icon: LayoutGrid, active: true, href: '/' },
+    { name: 'Projects', icon: Code, active: false, href: '/projects' },
+    { name: 'Services', icon: Server, active: false, href: '/services' },
+    { name: 'Clients', icon: Users, active: false, href: '/clients' },
+    { name: 'Resources', icon: FileCode, active: false, href: '/resources' },
+    { name: 'Settings', icon: Settings, active: false, href: '/settings' },
   ];
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
       <div className={styles.logo}>
-        <div style={{ width: 32, height: 32, background: 'var(--primary)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>S</div>
-        ShopMaster
+        <Image 
+          src="/kivoc-logo.png" 
+          alt="Kivoc Dynamic Technology" 
+          width={40} 
+          height={40}
+          className={styles.logoImage}
+        />
+        <div className={styles.logoText}>
+          <span className={styles.logoName}>Kivoc</span>
+          <span className={styles.logoTagline}>Dynamic Tech</span>
+        </div>
       </div>
       
       <nav className={styles.menu}>
         {menu.map((item) => (
-          <Link key={item.name} href={item.href} className={`${styles.item} ${item.active ? styles.active : ''}`}>
+          <Link 
+            key={item.name} 
+            href={item.href} 
+            className={`${styles.item} ${item.active ? styles.active : ''}`}
+            onClick={onClose}
+          >
             <item.icon className={styles.icon} />
             <span>{item.name}</span>
           </Link>
@@ -32,10 +52,10 @@ export default function Sidebar() {
       </nav>
 
       <div className={styles.footer}>
-         <div className={styles.item}>
+         <button className={styles.item} onClick={() => console.log('Logout clicked')}>
             <LogOut className={styles.icon} />
             <span>Logout</span>
-         </div>
+         </button>
       </div>
     </aside>
   );

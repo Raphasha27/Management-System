@@ -12,6 +12,7 @@ interface Message {
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
+  const [stats, setStats] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -22,6 +23,19 @@ export default function AIAssistant() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch('/api/ai/stats');
+        const data = await res.json();
+        setStats(data);
+      } catch (err) {
+        console.error('Failed to fetch AI stats:', err);
+      }
+    };
+    fetchStats();
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -58,6 +72,28 @@ export default function AIAssistant() {
 
   const generateAIResponse = (query: string): string => {
     const lowerQuery = query.toLowerCase();
+
+    // Stats-aware responses
+    if (lowerQuery.includes('how many projects') || lowerQuery.includes('project count')) {
+      if (stats) {
+        return `There are currently ${stats.projectCount} projects in the system.`;
+      }
+      return 'I\'m currently calculating the projects... Try asking again in a moment!';
+    }
+
+    if (lowerQuery.includes('revenue') || lowerQuery.includes('money')) {
+      if (stats) {
+        return `The total revenue across all projects is R ${stats.totalRevenue.toLocaleString()}.`;
+      }
+      return 'I\'m fetching the latest financial data... Try asking again in a moment!';
+    }
+
+    if (lowerQuery.includes('how many clients')) {
+      if (stats) {
+        return `We currently have ${stats.clientCount} clients registered in the system.`;
+      }
+      return 'I\'m counting the clients... Try asking again in a moment!';
+    }
 
     // System understanding responses
     if (lowerQuery.includes('project') || lowerQuery.includes('create project')) {

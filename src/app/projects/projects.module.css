@@ -193,3 +193,42 @@
   color: #64748b;
   text-align: right;
 }
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .header button {
+    width: 100%;
+  }
+
+  .projectMain {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .statusBadge {
+    align-self: flex-start;
+  }
+
+  .projectMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .projectFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .progress {
+    width: 100%;
+  }
+
+  .container {
+    padding: 16px;
+  }
+}

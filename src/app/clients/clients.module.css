@@ -137,3 +137,23 @@
   color: #2563eb;
   border-color: #2563eb;
 }
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .header button {
+    width: 100%;
+  }
+
+  .container {
+    padding: 16px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

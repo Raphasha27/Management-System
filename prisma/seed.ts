@@ -3,55 +3,46 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create User
-  const user = await prisma.user.upsert({
-    where: { email: 'admin@shopmaster.com' },
+  console.log('Seeding management system data...');
+
+  // Create Clients
+  const client1 = await (prisma as any).client.upsert({
+    where: { email: 'john@techcorp.com' },
     update: {},
     create: {
-      email: 'admin@shopmaster.com',
-      name: 'Admin User',
-      role: 'admin',
+      name: 'John Smith',
+      email: 'john@techcorp.com',
+      company: 'TechCorp Solutions',
+      phone: '+1-555-0101',
     },
   });
 
-  console.log({ user });
+  const client2 = await (prisma as any).client.upsert({
+    where: { email: 'sarah@innovate.com' },
+    update: {},
+    create: {
+      name: 'Sarah Johnson',
+      email: 'sarah@innovate.com',
+      company: 'Innovate Digital',
+      phone: '+1-555-0102',
+    },
+  });
 
-  // Create Products
-  const productsData = [
-    { name: 'Wireless Headphones', price: 120.0, stock: 50, category: 'Electronics', image: 'headphones.jpg' },
-    { name: 'Smart Watch', price: 199.99, stock: 30, category: 'Electronics', image: 'watch.jpg' },
-    { name: 'Ergonomic Chair', price: 250.0, stock: 15, category: 'Furniture', image: 'chair.jpg' },
-    { name: 'Running Shoes', price: 89.99, stock: 100, category: 'Apparel', image: 'shoes.jpg' },
-    { name: 'Mechanical Keyboard', price: 150.0, stock: 25, category: 'Electronics', image: 'keyboard.jpg' },
+  // Create Services
+  const servicesData = [
+    { name: 'Web Development', category: 'Web Development', description: 'Custom websites and web apps', price: 45000.0 },
+    { name: 'Mobile App Development', category: 'Software Development', description: 'iOS and Android apps', price: 95000.0 },
+    { name: 'Cloud Services', category: 'Cloud Services', description: 'AWS/Azure migration', price: 35000.0 },
+    { name: 'UI/UX Design', category: 'Design Services', description: 'User-centered design', price: 25000.0 },
   ];
 
-  for (const p of productsData) {
-    await prisma.product.create({
-      data: p,
-    });
-  }
-
-  // Create Orders
-  const products = await prisma.product.findMany();
-  
-  for (let i = 0; i < 10; i++) {
-    const randomProduct = products[Math.floor(Math.random() * products.length)];
-    const quantity = Math.floor(Math.random() * 3) + 1;
-    const total = randomProduct.price * quantity;
-
-    await prisma.order.create({
-      data: {
-        userId: user.id,
-        status: ['Pending', 'Shipped', 'Delivered'][Math.floor(Math.random() * 3)],
-        total: total,
-        createdAt: new Date(new Date().setDate(new Date().getDate() - i)), // Past dates
-        items: {
-          create: {
-            productId: randomProduct.id,
-            quantity: quantity,
-          },
-        },
-      },
+  for (const s of servicesData) {
+    await (prisma as any).service.upsert({
+      where: { id: servicesData.indexOf(s) + 1 },
+      update: {},
+      create: s,
+    }).catch(async () => {
+      await (prisma as any).service.create({ data: s });
     });
   }
 

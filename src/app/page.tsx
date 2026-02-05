@@ -6,11 +6,11 @@ import { DollarSign, Users, Code, TrendingUp, CheckCircle } from 'lucide-react';
 
 // Auto-seed function
 async function ensureData() {
-  const clientCount = await prisma.client.count();
+  const clientCount = await (prisma as any).client.count();
   if (clientCount === 0) {
     try {
       // Create Clients
-      const client1 = await prisma.client.create({
+      const client1 = await (prisma as any).client.create({
         data: {
           name: 'John Smith',
           email: 'john@techcorp.com',
@@ -19,7 +19,7 @@ async function ensureData() {
         },
       });
 
-      const client2 = await prisma.client.create({
+      const client2 = await (prisma as any).client.create({
         data: {
           name: 'Sarah Johnson',
           email: 'sarah@innovate.com',
@@ -37,16 +37,16 @@ async function ensureData() {
       ];
 
       for (const s of servicesData) {
-        await prisma.service.create({ data: s });
+        await (prisma as any).service.create({ data: s });
       }
 
-      const services = await prisma.service.findMany();
+      const services = await (prisma as any).service.findMany();
 
       // Create Projects
       const statuses = ['Active', 'Completed', 'Pending', 'On Hold'];
       for (let i = 0; i < 6; i++) {
         const service = services[i % services.length];
-        await prisma.project.create({
+        await (prisma as any).project.create({
           data: {
             name: `Project ${String.fromCharCode(65 + i)}`,
             status: statuses[i % statuses.length],
@@ -71,10 +71,10 @@ async function ensureData() {
 }
 
 async function getStats() {
-  const projects = await prisma.project.findMany({ include: { services: true } });
+  const projects = await (prisma as any).project.findMany({ include: { services: true } });
   const totalRevenue = projects.reduce((sum: number, p: { budget: number }) => sum + p.budget, 0);
   const activeProjects = projects.filter((p: { status: string }) => p.status === 'Active').length;
-  const clientCount = await prisma.client.count();
+  const clientCount = await (prisma as any).client.count();
 
   return [
     { 
@@ -105,7 +105,7 @@ async function getStats() {
 }
 
 async function getRecentProjects() {
-  return await prisma.project.findMany({
+  return await (prisma as any).project.findMany({
     take: 5,
     orderBy: { startDate: 'desc' },
     include: { client: true }
@@ -113,11 +113,12 @@ async function getRecentProjects() {
 }
 
 async function getTopServices() {
-  return await prisma.service.findMany({
+  return await (prisma as any).service.findMany({
     take: 4,
     orderBy: { price: 'desc' }
   });
 }
+
 
 export default async function Home() {
   await ensureData();
@@ -213,7 +214,7 @@ export default async function Home() {
                 </tr>
               </thead>
               <tbody>
-                {recentProjects.map((project: { id: number; name: string; client: { company?: string; name: string } | null; startDate: Date; status: string; budget: number }) => (
+                {recentProjects.map((project: { id: number; name: string; client: { company: string | null; name: string } | null; startDate: Date; status: string; budget: number }) => (
                   <tr key={project.id}>
                     <td>{project.name}</td>
                     <td>{project.client?.company || project.client?.name}</td>

@@ -118,3 +118,21 @@ a {
   .gap-4 { gap: 12px; }
   .gap-2 { gap: 6px; }
 }
+
+/* ========================================= */
+/* HIDE NEXT.JS DEVELOPMENT INDICATORS */
+/* ========================================= */
+nextjs-portal,
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+[data-nextjs-scroll-lock],
+#__next-build-watcher,
+.__next-dev-indicator {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

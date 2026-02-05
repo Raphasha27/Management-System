@@ -76,6 +76,42 @@ export default function RootLayout({
           </main>
         </div>
 
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Hide Next.js development indicator
+              (function() {
+                const hideIndicator = () => {
+                  const indicator = document.querySelector('nextjs-portal');
+                  if (indicator) {
+                    indicator.style.display = 'none';
+                  }
+                  // Also target the shadow DOM
+                  const allElements = document.querySelectorAll('*');
+                  allElements.forEach(el => {
+                    if (el.shadowRoot) {
+                      const style = document.createElement('style');
+                      style.textContent = ':host { display: none !important; }';
+                      el.shadowRoot.appendChild(style);
+                    }
+                  });
+                };
+                
+                // Run immediately and on DOM ready
+                hideIndicator();
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', hideIndicator);
+                } else {
+                  hideIndicator();
+                }
+                
+                // Keep checking for new indicators
+                setInterval(hideIndicator, 500);
+              })();
+            `,
+          }}
+        />
+
         <style jsx>{`
           @media (max-width: 768px) {
             .main-content {

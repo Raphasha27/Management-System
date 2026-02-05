@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Bot, User, Mic, MicOff } from 'lucide-react';
 import styles from './AIAssistant.module.css';
 
 interface Message {
@@ -22,7 +22,9 @@ export default function AIAssistant() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -35,6 +37,34 @@ export default function AIAssistant() {
       }
     };
     fetchStats();
+
+    // Initialize Speech Recognition
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = 'en-US';
+
+        recognitionRef.current.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInputValue(transcript);
+          setIsRecording(false);
+          // Auto-send if transcript is clear
+          setTimeout(() => handleSend(transcript), 500);
+        };
+
+        recognitionRef.current.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error);
+          setIsRecording(false);
+        };
+
+        recognitionRef.current.onend = () => {
+          setIsRecording(false);
+        };
+      }
+    }
   }, []);
 
   const scrollToBottom = () => {
@@ -45,12 +75,38 @@ export default function AIAssistant() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const speak = (text: string) => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.1; // Slightly higher pitch for "Siri" feel
+      // Try to find a nice female voice
+      const voices = window.speechSynthesis.getVoices();
+      const siriVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Female'));
+      if (siriVoice) utterance.voice = siriVoice;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const toggleRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+    } else {
+      setInputValue('');
+      recognitionRef.current?.start();
+      setIsRecording(true);
+    }
+  };
+
+  const handleSend = async (forcedValue?: string) => {
+    const textToSend = forcedValue || inputValue;
+    if (!textToSend.trim() || isLoading) return;
 
     const userMessage: Message = {
       role: 'user',
-      content: inputValue,
+      content: textToSend,
       timestamp: new Date(),
     };
 
@@ -58,78 +114,85 @@ export default function AIAssistant() {
     setInputValue('');
     setIsLoading(true);
 
-    // Simulate AI response (replace with actual AI API call)
+    // Simulate AI response
     setTimeout(() => {
+      const responseText = generateAIResponse(textToSend);
       const aiResponse: Message = {
         role: 'assistant',
-        content: generateAIResponse(inputValue),
+        content: responseText,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiResponse]);
       setIsLoading(false);
+      speak(responseText);
     }, 1500);
   };
 
   const generateAIResponse = (query: string): string => {
     const lowerQuery = query.toLowerCase();
 
-    // Stats-aware responses
+    // Siri-like greetings
+    if (lowerQuery === 'hi' || lowerQuery === 'hello' || lowerQuery.includes('hey')) {
+      return "Hello! I'm here to help you manage Kivoc Dynamic Technology. What's on your mind?";
+    }
+
+    // Stats-aware responses (Polished for Siri-style)
     if (lowerQuery.includes('how many projects') || lowerQuery.includes('project count')) {
       if (stats) {
-        return `There are currently ${stats.projectCount} projects in the system.`;
+        return `You have ${stats.projectCount} active projects in the system right now.`;
       }
-      return 'I\'m currently calculating the projects... Try asking again in a moment!';
+      return 'Let me check that for you... You have several projects currently active.';
     }
 
-    if (lowerQuery.includes('revenue') || lowerQuery.includes('money')) {
+    if (lowerQuery.includes('revenue') || lowerQuery.includes('money') || lowerQuery.includes('wealth')) {
       if (stats) {
-        return `The total revenue across all projects is R ${stats.totalRevenue.toLocaleString()}.`;
+        return `Kivoc's total revenue currently stands at R ${stats.totalRevenue.toLocaleString()}. Business is looking good!`;
       }
-      return 'I\'m fetching the latest financial data... Try asking again in a moment!';
+      return 'Accounting is still processing the latest figures. Please check back in a second.';
     }
 
-    if (lowerQuery.includes('how many clients')) {
+    if (lowerQuery.includes('how many clients') || lowerQuery.includes('client count')) {
       if (stats) {
-        return `We currently have ${stats.clientCount} clients registered in the system.`;
+        return `You currently have ${stats.clientCount} clients registered in your database.`;
       }
-      return 'I\'m counting the clients... Try asking again in a moment!';
+      return 'I\'m fetching your client list now.';
     }
 
     // System understanding responses
     if (lowerQuery.includes('project') || lowerQuery.includes('create project')) {
-      return 'To create a new project, navigate to the Projects page and click the "New Project" button. You\'ll need to select a client, add services, set a budget, and choose a start date. The system automatically tracks project status (Active, Completed, Pending, or On Hold).';
+      return 'To start a new project, just head over to the Projects page and click "New Project". I\'ll track the milestones for you.';
     }
 
     if (lowerQuery.includes('client') || lowerQuery.includes('add client')) {
-      return 'You can add a new client from the Clients page. Click "Add Client" and fill in their name, email, company, and phone number. Each client card shows their active projects and support tickets for easy tracking.';
+      return 'Adding a client is easy. Go to the Clients page, click "Add Client", and I\'ll store all their details securely.';
     }
 
     if (lowerQuery.includes('service') || lowerQuery.includes('pricing')) {
-      return 'Our service catalog includes Web Development (R45,000), Mobile App Development (R95,000), Cloud Services (R35,000), and UI/UX Design (R25,000). You can customize these or add new services from the Services page.';
+      return 'We offer Web Dev, Mobile Apps, Cloud Services, and UI Design. Web development starts at R45,000. Check the Services page for the full catalog.';
     }
 
     if (lowerQuery.includes('support') || lowerQuery.includes('ticket')) {
-      return 'The Support system allows you to manage customer tickets. You can view all tickets, respond to customer queries, and track conversation history. Each ticket has a status (Open, In Progress, Resolved, Closed) and priority level.';
+      return 'Your support tickets are all managed in the Support tab. You can respond to clients and track resolved issues there.';
     }
 
     if (lowerQuery.includes('dashboard') || lowerQuery.includes('overview')) {
-      return 'The Dashboard provides a real-time overview of your business: Total Revenue, Active Projects, Client Count, Monthly Revenue charts, Service Distribution, and Recent Projects. All metrics update automatically when you add or modify data.';
+      return 'The dashboard gives you a bird\'s-eye view of Kivoc, including revenue charts and recent project activity.';
     }
 
     if (lowerQuery.includes('mobile') || lowerQuery.includes('phone')) {
-      return 'This system is fully mobile-responsive! The sidebar converts to a hamburger menu on mobile devices, and all pages adapt to smaller screens. You can manage your business from any device.';
+      return 'Yes, I\'m fully responsive! You can take your business management anywhere on your phone.';
     }
 
     if (lowerQuery.includes('database') || lowerQuery.includes('prisma')) {
-      return 'The system uses Prisma ORM with SQLite for development. All data is stored locally and persists between sessions. For production, you can easily switch to PostgreSQL or MySQL by updating the DATABASE_URL in your .env file.';
+      return 'I\'m powered by Prisma and a secure local database. Your data is safe and reachable at all times.';
     }
 
     if (lowerQuery.includes('help') || lowerQuery.includes('how')) {
-      return 'I can help you with:\n• Creating and managing projects\n• Adding and tracking clients\n• Understanding the service catalog\n• Managing support tickets\n• Navigating the system\n• Database and technical questions\n\nJust ask me anything!';
+      return 'I can help you manage projects, add clients, check your revenue, or navigate the ticket system. Just ask!';
     }
 
-    // Default fallback with system knowledge
-    return `I understand you're asking about "${query}". While I'm still learning, I can help you navigate Kivoc Dynamic Technology's management system. Try asking me about projects, clients, services, support tickets, or how to use specific features. What would you like to know more about?`;
+    // Default fallback
+    return `I'm not quite sure about that, but I can help you with your Kivoc projects, clients, or revenue. Would you like to check your active projects?`;
   };
 
   return (
@@ -156,7 +219,10 @@ export default function AIAssistant() {
                 </span>
               </div>
             </div>
-            <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
+            <button className={styles.closeBtn} onClick={() => {
+              setIsOpen(false);
+              window.speechSynthesis.cancel();
+            }}>
               <X size={20} />
             </button>
           </div>
@@ -198,15 +264,23 @@ export default function AIAssistant() {
           </div>
 
           <div className={styles.inputContainer}>
+            <button 
+              className={`${styles.micBtn} ${isRecording ? styles.recording : ''}`}
+              onClick={toggleRecording}
+              disabled={isLoading}
+              title={isRecording ? 'Stop Recording' : 'Start Voice Input'}
+            >
+              {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
+            </button>
             <input
               type="text"
-              placeholder="Ask me anything about Kivoc..."
+              placeholder={isRecording ? "Listening..." : "Ask me anything..."}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               disabled={isLoading}
             />
-            <button onClick={handleSend} disabled={isLoading || !inputValue.trim()}>
+            <button onClick={() => handleSend()} disabled={isLoading || !inputValue.trim()}>
               <Send size={18} />
             </button>
           </div>
@@ -215,3 +289,4 @@ export default function AIAssistant() {
     </>
   );
 }
+

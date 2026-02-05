@@ -246,6 +246,28 @@
   cursor: not-allowed;
 }
 
+.inputContainer button.micBtn {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.inputContainer button.micBtn:hover:not(:disabled) {
+  background: #e2e8f0;
+  color: #2563eb;
+}
+
+.inputContainer button.recording {
+  background: #ef4444;
+  color: white;
+  animation: micPulse 1.5s infinite;
+}
+
+@keyframes micPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .chatWindow {
@@ -255,7 +277,9 @@
     width: 100%;
     height: 100vh;
     border-radius: 0;
+    z-index: 10000;
   }
+
 
   .fab {
     bottom: 20px;

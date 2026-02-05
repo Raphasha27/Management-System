@@ -22,13 +22,23 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     { name: 'Settings', icon: Settings, active: false, href: '/settings' },
   ];
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/';
+    } catch (err) {
+      console.error('Logout failed:', err);
+      window.location.href = '/';
+    }
+  };
+
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
       <div className={styles.logo}>
-        <Image 
-          src="/kivoc-logo.png" 
-          alt="Kivoc Dynamic Technology" 
-          width={40} 
+        <Image
+          src="/kivoc-logo.png"
+          alt="Kivoc Dynamic Technology"
+          width={40}
           height={40}
           className={styles.logoImage}
         />
@@ -37,12 +47,12 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
           <span className={styles.logoTagline}>Dynamic Tech</span>
         </div>
       </div>
-      
+
       <nav className={styles.menu}>
         {menu.map((item) => (
-          <Link 
-            key={item.name} 
-            href={item.href} 
+          <Link
+            key={item.name}
+            href={item.href}
             className={`${styles.item} ${item.active ? styles.active : ''}`}
             onClick={onClose}
           >
@@ -53,10 +63,10 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       </nav>
 
       <div className={styles.footer}>
-         <Link href="/" className={styles.item}>
-            <LogOut className={styles.icon} />
-            <span>Logout</span>
-         </Link>
+        <div onClick={handleLogout} className={styles.item} style={{ cursor: 'pointer' }}>
+          <LogOut className={styles.icon} />
+          <span>Logout</span>
+        </div>
       </div>
     </aside>
   );

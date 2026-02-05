@@ -100,8 +100,10 @@ Kivoc_System/
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📄 Policies & Protection
+- [**Security Policy**](SECURITY.md) - Deep dive into our protection architecture.
+- [**Privacy Policy**](PRIVACY_POLICY.md) - Data handling and usage standards.
+- [**License**](LICENSE) - MIT License details.
 
 ---
 

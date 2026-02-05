@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Sparkles, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import styles from './login.module.css';
@@ -12,20 +13,30 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    // Mock validation
-    setTimeout(() => {
-      if (email === 'admin@kivoc.co.za' && password === 'password123') {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         router.push('/dashboard');
       } else {
-        setError('Invalid credentials. Please use the mock login provided.');
+        setError(data.message || 'Invalid credentials. Please use the mock login provided.');
         setIsLoading(false);
       }
-    }, 1000);
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,9 +59,9 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} className={styles.form}>
           <div className={styles.inputGroup}>
             <label><Mail size={16} /> Email Address</label>
-            <input 
-              type="email" 
-              placeholder="name@company.com" 
+            <input
+              type="email"
+              placeholder="name@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -59,9 +70,9 @@ export default function LoginPage() {
 
           <div className={styles.inputGroup}>
             <label><Lock size={16} /> Password</label>
-            <input 
-              type="password" 
-              placeholder="••••••••" 
+            <input
+              type="password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -82,6 +93,7 @@ export default function LoginPage() {
 
         <div className={styles.footer}>
           <p>Protected by enterprise-grade security</p>
+          <Link href="/privacy" className={styles.privacyLink}>Privacy Policy & Instructions</Link>
         </div>
       </div>
     </div>

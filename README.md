@@ -1,17 +1,17 @@
-# 🚀 Kivoc Dynamic Technology - IT Management System (Kivoc System)
+# 🚀 Kirov Dynamics - Kirov-Core (Enterprise AI Architecture)
 
 ### 🌐 [View Official Deployment](https://management-system-six-blush.vercel.app/)
 
+[![AI Systems Architect](https://img.shields.io/badge/AI%20Role-AI%20Systems%20Architect-blueviolet?style=for-the-badge&logo=ai)](https://github.com/Raphasha27)
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748?logo=prisma)
-![Security](https://img.shields.io/badge/Security-Hardened-success?logo=googlecloudstorage)
 
 ---
 
 ## 📝 Project Vision & Specifications
-**Kivoc System**, developed by **Kivoc Dynamic Technology**, is a state-of-the-art management suite designed specialized for IT call centers and service providers. This platform aggregates project tracking, CRM, and real-time support into a premium, AI-driven experience.
+**Kirov-Core**, developed by **Kirov Dynamics**, is a state-of-the-art management suite designed for AI-driven enterprise operations. This platform serves as the backbone for IT call centers and service providers, aggregating project tracking, CRM, and real-time support into a premium, hardened environment.
 
 ### 🏗️ Technical Specifications
 - **Framework**: Next.js 16 (App Router) with React 19.

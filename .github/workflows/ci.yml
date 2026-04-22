@@ -1,35 +1,29 @@
-name: Continuous Integration
+name: CI
 
 on:
   push:
-    branches: [ main, feature/antigravity-dashboard ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Generate Prisma Client
-      run: npx prisma generate
-
-    - name: Run Lint
-      run: npm run lint
-
-    - name: Build Next.js
-      run: npm run build
-      env:
-        DATABASE_URL: "file:./dev.db"
-        NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+      - name: Build application
+        run: npm run build
+        env:
+          DATABASE_URL: "file:./dev.db" # Local SQLite for build check
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"

@@ -1,11 +1,11 @@
 # Privacy Policy
 
-## Kivoc Dynamic Technology Data Protection
+## Kirov Dynamics Data Protection
 
-This Privacy Policy describes how **Kivoc Dynamic Technology** ("we", "us", or "our") collects, uses, and protects information within the Kivoc System.
+This Privacy Policy describes how **Kirov Dynamics** ("we", "us", or "our") collects, uses, and protects information within the Kirov System.
 
 ## 1. Information Collection
-The Kivoc System is currently configured as a management dashboard.
+The Kirov System is currently configured as a management dashboard.
 - **Session Data**: We use cookies to manage your logged-in state. These do not contain personal tracking data beyond authentication identifiers.
 - **Business Data**: Data related to projects, clients, and services is stored securely for the sole purpose of providing system functionality.
 
@@ -28,8 +28,8 @@ Users have the right to:
 - Log out at any time to terminate active sessions.
 
 ## 5. Policy Updates
-Kivoc Dynamic Technology reserves the right to update this policy as the system evolves. Use of the system constitutes acceptance of these terms.
+Kirov Dynamics reserves the right to update this policy as the system evolves. Use of the system constitutes acceptance of these terms.
 
 ---
 
-For questions regarding privacy, please contact [privacy@kivoc.tech](mailto:privacy@kivoc.tech).
+For questions regarding privacy, please contact [privacy@kirov.tech](mailto:privacy@kirov.tech).

@@ -4,12 +4,12 @@ export async function POST(request: Request) {
   const { email, password } = await request.json();
 
   // Mock validation
-  if (email === 'admin@kivoc.co.za' && password === 'password123') {
+  if (email === 'admin@kirov.co.za' && password === 'password123') {
     const response = NextResponse.json({ success: true });
     
     // Set a secure, httpOnly cookie for the session
     // In a real app, this would be a JWT or session ID
-    response.cookies.set('kivoc_session', 'authenticated_admin_session', {
+    response.cookies.set('kirov_session', 'authenticated_admin_session', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

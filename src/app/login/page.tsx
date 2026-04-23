@@ -47,12 +47,12 @@ export default function LoginPage() {
             <Sparkles size={32} />
           </div>
           <h1>Welcome Back</h1>
-          <p>Login to your Kivoc management account</p>
+          <p>Login to your Kirov management account</p>
         </div>
 
         <div className={styles.mockInfo}>
           <div className={styles.mockBadge}>MOCK LOGIN</div>
-          <p><strong>Email:</strong> admin@kivoc.co.za</p>
+          <p><strong>Email:</strong> admin@kirov.co.za</p>
           <p><strong>Password:</strong> password123</p>
         </div>
 

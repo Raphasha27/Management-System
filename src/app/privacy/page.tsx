@@ -11,14 +11,14 @@ export default function PrivacyPage() {
                 </Link>
                 <div className={styles.logo}>
                     <ShieldCheck size={40} color="#2563eb" />
-                    <span>Kivoc Privacy Center</span>
+                    <span>Kirov Privacy Center</span>
                 </div>
             </header>
 
             <main className={styles.content}>
                 <section className={styles.hero}>
                     <h1>Privacy & Data Protection</h1>
-                    <p>Your security is our highest priority. Learn how Kivoc Dynamic Technology handles your information.</p>
+                    <p>Your security is our highest priority. Learn how Kirov Dynamics handles your information.</p>
                 </section>
 
                 <div className={styles.grid}>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
                 <article className={styles.textBody}>
                     <h2>Instructions for Use</h2>
                     <p>
-                        The Kivoc System is designed for authorized IT administrative use only.
+                        The Kirov System is designed for authorized IT administrative use only.
                         <strong> All users must:</strong>
                     </p>
                     <ul>
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
             </main>
 
             <footer className={styles.footer}>
-                &copy; {new Date().getFullYear()} Kivoc Dynamic Technology. All rights reserved.
+                &copy; {new Date().getFullYear()} Kirov Dynamics. All rights reserved.
             </footer>
         </div>
     );

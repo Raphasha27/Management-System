@@ -23,7 +23,7 @@ export default function AIAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hello! I\'m your Kivoc AI Assistant. How can I help you today?',
+      content: 'Hello! I\'m your Kirov AI Assistant. How can I help you today?',
       timestamp: new Date(),
     },
   ]);
@@ -139,7 +139,7 @@ export default function AIAssistant() {
     const lowerQuery = query.toLowerCase();
 
     if (lowerQuery === 'hi' || lowerQuery === 'hello' || lowerQuery.includes('hey')) {
-      return "Hello! I'm here to help you manage Kivoc Dynamic Technology. What's on your mind?";
+      return "Hello! I'm here to help you manage Kirov Dynamics. What's on your mind?";
     }
 
     if (lowerQuery.includes('how many projects') || lowerQuery.includes('project count')) {
@@ -151,7 +151,7 @@ export default function AIAssistant() {
 
     if (lowerQuery.includes('revenue') || lowerQuery.includes('money') || lowerQuery.includes('wealth')) {
       if (stats) {
-        return `Kivoc's total revenue currently stands at R ${stats.totalRevenue.toLocaleString()}. Business is looking good!`;
+        return `Kirov's total revenue currently stands at R ${stats.totalRevenue.toLocaleString()}. Business is looking good!`;
       }
       return 'Accounting is still processing the latest figures. Please check back in a second.';
     }
@@ -180,7 +180,7 @@ export default function AIAssistant() {
     }
 
     if (lowerQuery.includes('dashboard') || lowerQuery.includes('overview')) {
-      return 'The dashboard gives you a bird\'s-eye view of Kivoc, including revenue charts and recent project activity.';
+      return 'The dashboard gives you a bird\'s-eye view of Kirov, including revenue charts and recent project activity.';
     }
 
     if (lowerQuery.includes('mobile') || lowerQuery.includes('phone')) {
@@ -195,7 +195,7 @@ export default function AIAssistant() {
       return 'I can help you manage projects, add clients, check your revenue, or navigate the ticket system. Just ask!';
     }
 
-    return `I'm not quite sure about that, but I can help you with your Kivoc projects, clients, or revenue. Would you like to check your active projects?`;
+    return `I'm not quite sure about that, but I can help you with your Kirov projects, clients, or revenue. Would you like to check your active projects?`;
   };
 
   return (
@@ -213,7 +213,7 @@ export default function AIAssistant() {
             <div className={styles.headerInfo}>
               <Bot size={24} />
               <div>
-                <h3>Kivoc AI Assistant</h3>
+                <h3>Kirov AI Assistant</h3>
                 <span className={styles.status}>
                   <div className={styles.statusDot}></div>
                   Online

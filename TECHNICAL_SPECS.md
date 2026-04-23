@@ -1,8 +1,8 @@
-# 🚀 Kivoc Dynamic Technology - Project Complete!
+# 🚀 Kirov Dynamics - Project Complete!
 
 ## ✅ What We Built
 
-I've finalized **Kivoc System**, a premium IT Management and Support platform. The system evolved from a simple dashboard into a comprehensive business management suite.
+I've finalized **Kirov System**, a premium IT Management and Support platform. The system evolved from a simple dashboard into a comprehensive business management suite.
 
 ### 🏗️ Technology Stack
 
@@ -54,11 +54,11 @@ I've finalized **Kivoc System**, a premium IT Management and Support platform. T
 ### 📂 Revised Project Structure
 
 ```
-Kivoc_System/
+Kirov_System/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx            # Get Started Landing Page
-│   │   ├── login/              # Secure Gateway (Mock: admin@kivoc.co.za / password123)
+│   │   ├── login/              # Secure Gateway (Mock: admin@kirov.co.za / password123)
 │   │   ├── dashboard/          # Analytics Hub
 │   │   ├── projects/           # Operations Tracking
 │   │   ├── clients/            # CRM Module
@@ -86,4 +86,4 @@ Kivoc_System/
 
 ---
 
-**Made with ❤️ by Kivoc Dynamic Technology Team**
+**Made with ❤️ by Kirov Dynamics Team**

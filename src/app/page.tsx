@@ -8,8 +8,8 @@ export default function LandingPage() {
     <div className={styles.wrapper}>
       <header className={styles.header}>
         <div className={styles.logo}>
-          <Image src="/kivoc-logo.png" alt="Kivoc Logo" width={32} height={32} />
-          <span>Kivoc Dynamic Technology</span>
+          <Image src="/kirov-logo.png" alt="Kirov Logo" width={32} height={32} />
+          <span>Kirov Dynamics</span>
         </div>
         <Link href="/login" className={styles.loginBtn}>Login</Link>
       </header>
@@ -49,7 +49,7 @@ export default function LandingPage() {
       </main>
 
       <footer className={styles.footer}>
-        <p>© 2026 Kivoc Dynamic Technology. All rights reserved.</p>
+        <p>© 2026 Kirov Dynamics. All rights reserved.</p>
       </footer>
     </div>
   );

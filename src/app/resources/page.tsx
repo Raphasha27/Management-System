@@ -31,7 +31,7 @@ export default function ResourcesPage() {
   ];
 
   const recentFiles = [
-    { name: 'Kivoc_Network_Architecture_v2.pdf', type: 'PDF', size: '4.2 MB', date: '2 hours ago' },
+    { name: 'Kirov_Network_Architecture_v2.pdf', type: 'PDF', size: '4.2 MB', date: '2 hours ago' },
     { name: 'Client_Onboarding_Checklist.docx', type: 'DOCX', size: '1.1 MB', date: 'Yesterday' },
     { name: 'Cloud_Migration_Strategy_2026.pptx', type: 'PPTX', size: '12.5 MB', date: '3 days ago' },
     { name: 'Security_Audit_Report_Jan.pdf', type: 'PDF', size: '2.8 MB', date: '1 week ago' },

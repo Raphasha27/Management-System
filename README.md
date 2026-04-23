@@ -39,7 +39,7 @@ Review our full policies:
 ### 1. **Accessing the System**
 Navigate to the [Landing Page](https://management-system-six-blush.vercel.app/). Click **Get Started** to view the secure login gateway.
 - **Mock Admin Access**: 
-  - **Email**: `admin@kivoc.co.za`
+  - **Email**: `admin@kirov.co.za`
   - **Password**: `password123`
 
 ### 2. **Voice Interaction**
@@ -59,8 +59,8 @@ Call center agents can manage incoming requests in the **Support** tab. The inte
 ### **Setup**
 1. **Clone & Install**
    ```bash
-   git clone https://github.com/Raphasha27/Management-System.git
-   cd Management-System
+   git clone https://github.com/Raphasha27/kirov-core.git
+   cd kirov-core
    npm install
    ```
 2. **Database Initialization**
@@ -82,4 +82,4 @@ Call center agents can manage incoming requests in the **Support** tab. The inte
 
 ---
 
-**© 2026 Kivoc Dynamic Technology Team. All Rights Reserved.**
+**© 2026 Kirov Dynamics Team. All Rights Reserved.**

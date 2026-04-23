@@ -4,7 +4,7 @@ export async function POST() {
   const response = NextResponse.json({ success: true });
   
   // Clear the session cookie
-  response.cookies.set('kivoc_session', '', {
+  response.cookies.set('kirov_session', '', {
     httpOnly: true,
     expires: new Date(0),
     path: '/',

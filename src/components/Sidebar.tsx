@@ -36,14 +36,14 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
       <div className={styles.logo}>
         <Image
-          src="/kivoc-logo.png"
-          alt="Kivoc Dynamic Technology"
+          src="/kirov-logo.png"
+          alt="Kirov Dynamics"
           width={40}
           height={40}
           className={styles.logoImage}
         />
         <div className={styles.logoText}>
-          <span className={styles.logoName}>Kivoc</span>
+          <span className={styles.logoName}>Kirov</span>
           <span className={styles.logoTagline}>Dynamic Tech</span>
         </div>
       </div>

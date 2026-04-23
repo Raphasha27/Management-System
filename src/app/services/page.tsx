@@ -32,7 +32,7 @@ export default async function ServicesPage() {
       <Header title="Service Catalog" />
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.intro}><h2>IT Service Offerings</h2><p>Standardized service packages and custom IT solutions for Kivoc clients.</p></div>
+          <div className={styles.intro}><h2>IT Service Offerings</h2><p>Standardized service packages and custom IT solutions for Kirov clients.</p></div>
           <button className="btn btn-primary"><Plus size={18} /><span>Add Service</span></button>
         </div>
         <div className={styles.grid}>

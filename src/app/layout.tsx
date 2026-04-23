@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Kivoc Dynamic Technology - IT Solutions & Services</title>
+        <title>Kirov Dynamics - IT Solutions & Services</title>
         <meta name="description" content="Professional IT services for businesses - Software Development, Web Solutions & More" />
       </head>
       <body className={inter.className}>

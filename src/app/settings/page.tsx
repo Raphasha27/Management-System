@@ -37,12 +37,12 @@ export default function SettingsPage() {
               <div className={styles.form}>
                 <div className={styles.formGroup}>
                   <label>Company Name</label>
-                  <input type="text" defaultValue="Kivoc Dynamic Technology" />
+                  <input type="text" defaultValue="Kirov Dynamics" />
                 </div>
 
                 <div className={styles.formGroup}>
                   <label>Primary Email</label>
-                  <input type="email" defaultValue="admin@kivoc.tech" />
+                  <input type="email" defaultValue="admin@kirov.tech" />
                 </div>
 
                 <div className={styles.grid2}>
@@ -65,7 +65,7 @@ export default function SettingsPage() {
 
                 <div className={styles.formGroup}>
                   <label>Description</label>
-                  <textarea rows={4} defaultValue="Kivoc Dynamic Technology is a leading IT services provider specializing in web development, cloud solutions, and enterprise software."></textarea>
+                  <textarea rows={4} defaultValue="Kirov Dynamics is a leading IT services provider specializing in web development, cloud solutions, and enterprise software."></textarea>
                 </div>
 
                 <div className={styles.alert}>

@@ -1,8 +1,8 @@
 # Security Policy
 
-## Kivoc Dynamic Technology Security Standards
+## Kirov Dynamics Security Standards
 
-At Kivoc Dynamic Technology, security is our top priority. The Kivoc System is built with a "Security by Design" approach to ensure your data and operations are protected at all times.
+At Kirov Dynamics, security is our top priority. The Kirov System is built with a "Security by Design" approach to ensure your data and operations are protected at all times.
 
 ## 🛡️ Implemented Security Measures
 
@@ -29,9 +29,9 @@ The following headers are strictly enforced to harden the browser environment:
 - **Database Safety**: Prisma ORM provides protection against SQL Injection through prepared statements.
 
 ## 🔒 Instructions for Safe Use
-1. **Never Share Credentials**: Your mock credentials (`admin@kivoc.co.za` / `password123`) should only be used in trusted environments.
+1. **Never Share Credentials**: Your mock credentials (`admin@kirov.co.za` / `password123`) should only be used in trusted environments.
 2. **Clear Sessions**: Always click the **Logout** button when finishing your session to clear secure cookies.
 3. **Browser Health**: Ensure you are using a modern, updated web browser to benefit from all security header protections.
 
 ## 📞 Reporting Vulnerabilities
-If you discover a security vulnerability within the Kivoc System, please report it immediately to [security@kivoc.tech](mailto:security@kivoc.tech).
+If you discover a security vulnerability within the Kirov System, please report it immediately to [security@kirov.tech](mailto:security@kirov.tech).

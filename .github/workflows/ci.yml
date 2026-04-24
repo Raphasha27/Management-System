@@ -1,14 +1,18 @@
 name: CI
 
 on:
+  workflow_dispatch:
+
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on:
+  workflow_dispatch:
+ ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +20,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version:
+  workflow_dispatch:
+ 20
           cache: 'npm'
 
       - name: Install dependencies
@@ -27,3 +33,4 @@ jobs:
         env:
           DATABASE_URL: "file:./dev.db" # Local SQLite for build check
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+

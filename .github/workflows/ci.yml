@@ -2,7 +2,6 @@ name: CI
 
 on:
   workflow_dispatch:
-
   push:
     branches: [ master ]
   pull_request:
@@ -10,27 +9,30 @@ on:
 
 jobs:
   build:
-    runs-on:
-  workflow_dispatch:
- ubuntu-latest
-
-    steps:
+    runs-on: steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version:
-  workflow_dispatch:
- 20
-          cache: 'npm'
+          node-version: cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
       - name: Build application
         run: npm run build
-        env:
-          DATABASE_URL: "file:./dev.db" # Local SQLite for build check
+        env: 
+    DATABASE_URL: "file:./dev.db" # Local SQLite for build check
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"
-
+  security_scan: 
+    name: Security Scan (Trivy)
+    runs-on: - uses: actions/checkout@v4
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

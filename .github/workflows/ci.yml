@@ -9,13 +9,13 @@ on:
 
 jobs:
   build:
-    runs-on: steps:
+    runs-on: ubuntu-latest
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
@@ -27,8 +27,9 @@ jobs:
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   security_scan: 
     name: Security Scan (Trivy)
-    runs-on: -
-    uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:

@@ -24,9 +24,10 @@ jobs:
       - name: Build application
         run: npm run build
         env: 
-    DATABASE_URL: "file:./dev.db" # Local SQLite for build check
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+        DATABASE_URL: "file:./dev.db" # Local SQLite for build check
+        NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   security_scan: 
+  security_scan:
     name: Security Scan (Trivy)
     runs-on: ubuntu-latest
     steps:

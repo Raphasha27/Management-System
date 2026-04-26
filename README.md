@@ -1,6 +1,5 @@
 # 🚀 Kirov Dynamics - Kirov-Core (Enterprise AI Architecture)
 
-### 🌐 [View Official Deployment](https://management-system-six-blush.vercel.app/)
 
 [![AI Systems Architect](https://img.shields.io/badge/AI%20Role-AI%20Systems%20Architect-blueviolet?style=for-the-badge&logo=ai)](https://github.com/Raphasha27)
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)

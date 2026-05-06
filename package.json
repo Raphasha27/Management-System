@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
-    "lucide-react": "^0.563.0",
+    "lucide-react": "^1.14.0",
     "next": "16.2.3",
     "prisma": "^5.22.0",
     "react": "19.2.5",

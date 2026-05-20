@@ -1,84 +1,31 @@
-# 🚀 Kirov Dynamics - Kirov-Core (Enterprise AI Architecture)
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,100:00ffcc&height=200&section=header&text=Management-System&fontSize=50&fontColor=ffffff&fontAlignY=40&desc=Private%20Startup%20Architecture&descAlignY=65" width="100%"/>
 
+  [![Status](https://img.shields.io/badge/Status-Offline%20for%20Upgrades-ff4b4b?style=for-the-badge)](#)
+  [![Visibility](https://img.shields.io/badge/Visibility-Private%20Core-8957e5?style=for-the-badge)](#)
+</div>
 
-[![AI Systems Architect](https://img.shields.io/badge/AI%20Role-AI%20Systems%20Architect-blueviolet?style=for-the-badge&logo=ai)](https://github.com/Raphasha27)
-![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19-blue?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748?logo=prisma)
+## ?? Overview
+Welcome to the internal private repository for **Management-System**. 
 
----
+> **Note on Deployment:** Any previous live deployments (e.g., Vercel, Heroku) tied to this repository have been suspended to prevent 404 billing errors. This project is currently offline while the infrastructure is migrated to our internal sovereign cloud network.
 
-## 📝 Project Vision & Specifications
-**Kirov-Core**, developed by **Kirov Dynamics**, is a state-of-the-art management suite designed for AI-driven enterprise operations. This platform serves as the backbone for IT call centers and service providers, aggregating project tracking, CRM, and real-time support into a premium, hardened environment.
+## ?? Key Architectural Features
+- **High-Performance Core:** Built for scalability and autonomous operations.
+- **Modern UI/UX:** Features advanced dashboard logic and secure routing.
+- **Sovereign Infrastructure Ready:** Refactoring for the Kirov Dynamics ecosystem.
 
-### 🏗️ Technical Specifications
-- **Framework**: Next.js 16 (App Router) with React 19.
-- **Intelligence**: Integrated Web Speech API for bidirectional voice interaction.
-- **Database**: Prisma ORM with localized SQLite (Extensible to PostgreSQL/MySQL).
-- **Security Architecture**: Secure middleware guards, HttpOnly session management, and hardened HTTP headers.
-- **Design System**: Mobile-first, responsive CSS Modules with a high-end corporate aesthetic.
+## ??? Local Development Setup
+To run this project locally without relying on external cloud providers:
 
----
+`ash
+git clone https://github.com/Raphasha27/Management-System.git
+cd Management-System
+# Install dependencies according to package manager (npm/pip/cargo)
+# Start the local development server
+`
 
-## 🔐 Security & Privacy (Priority #1)
-We implement enterprise-grade security to ensure your business data remains confidential.
-- **Middleware Guarding**: unauthorized access to business modules is blocked at the edge.
-- **Secure Sessions**: Authentication is handled via secure, HttpOnly, and SameSite-protected cookies.
-- **Privacy Center**: A built-in [Privacy & Security Center](/privacy) provides transparency to all employees and administrators.
-
-Review our full policies:
-- [🛡️ Security Policy](SECURITY.md)
-- [🔒 Privacy Policy](PRIVACY_POLICY.md)
-
----
-
-## 📖 Instructions for Use
-
-### 1. **Accessing the System**
-Navigate to the [Landing Page](https://management-system-six-blush.vercel.app/). Click **Get Started** to view the secure login gateway.
-- **Mock Admin Access**: 
-  - **Email**: `admin@kirov.co.za`
-  - **Password**: `password123`
-
-### 2. **Voice Interaction**
-Click the **Microphone** icon in the sidebar to activate the AI voice assistant. You can speak commands like "What is our current revenue?" or "How many active projects do we have?".
-
-### 3. **Support Ticketing**
-Call center agents can manage incoming requests in the **Support** tab. The interface is optimized for rapid response and prioritizes critical issues automatically.
-
----
-
-## 🛠️ Instructions to Follow (Installation)
-
-### **Prerequisites**
-- Node.js 18.x or higher
-- Git
-
-### **Setup**
-1. **Clone & Install**
-   ```bash
-   git clone https://github.com/Raphasha27/kirov-core.git
-   cd kirov-core
-   npm install
-   ```
-2. **Database Initialization**
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   npx prisma db seed
-   ```
-3. **Execution**
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 📄 Documentation Links
-- [📊 Full Project Summary](TECHNICAL_SPECS.md)
-- [🏁 Final Deployment Walkthrough](https://github.com/Raphasha27/Management-System/blob/final-production-secured/C:/Users/rapha/.gemini/antigravity/brain/1ce0667d-af5f-4be6-adce-1458832f482f/walkthrough.md) (Note: Local link updated in repo branch)
-
----
-
-**© 2026 Kirov Dynamics Team. All Rights Reserved.**
+## ?? Roadmap
+- [x] Clear dead Vercel/Heroku links to prevent 404 routing errors.
+- [ ] Migrate CI/CD to local GitHub Actions.
+- [ ] Deploy isolated -lab environment.

@@ -15,7 +15,7 @@
     "next": "16.2.12",
     "prisma": "^7.9.1",
     "react": "19.2.8",
-    "react-dom": "19.2.5",
+    "react-dom": "19.2.8",
     "recharts": "^3.10.0"
   },
   "devDependencies": {
